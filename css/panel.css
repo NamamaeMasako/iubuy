@@ -1,0 +1,28 @@
+section{
+	background-color: #000;
+	min-height: 100vh;
+	padding: 100px 0 50px 0;
+}
+.card{
+	margin-top: 1rem;
+	background-color: rgba(255,255,255,0.2);
+	color: #ccc;
+}
+.card-body,
+.card-body button{
+	text-shadow: 1px 1px 1px #222;
+}
+.alert{
+	text-shadow:none;
+}
+.table td,.table th{
+	border-top: 0px;
+}
+.table th{
+	border-bottom: 1px solid #fff;
+}
+#level-star{
+	position: absolute;
+	top: -30px;
+	left: 0;
+}

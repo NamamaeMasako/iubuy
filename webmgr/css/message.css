@@ -1,0 +1,35 @@
+.message-area{
+	position: fixed;
+	bottom: -1rem;
+	width: 100%;
+}
+.message{
+	position: absolute;
+	right: 0;
+	bottom: 0px;
+	min-height: 64px;
+	min-width: 255px;
+	transition: 2s;
+}
+#mobile-title{
+	display: none;
+}
+@media screen and (max-width: 576px){
+	#pc-title{
+		display: none;
+	}
+	#mobile-title{
+		display: block;
+		position: absolute;
+		width: 23%;
+		top: -2.9rem;
+		right: 0;
+		border: none;
+	}
+	.message{
+		min-height: 0px;
+	}
+	.card-body ul{
+		margin-bottom: 0;
+	}
+}
