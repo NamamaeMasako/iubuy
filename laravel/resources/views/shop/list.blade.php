@@ -5,10 +5,14 @@
 @section('three')
 <div class="card">
     <div class="card-header">
-        <div class="col-xl-12 mb-3">
-            <img src="{{url('/webmgr/upload/members/'.$tb_Member->avator)}}" class="col-xl-4 rounded-circle p-0" alt="Member Img">
-            <span class="pl-1">{{$tb_Member->name}}</span>
-            <span class="badge @if($tb_Member->admin != 0) badge-warning @else badge-secondary @endif">{{$tb_Member->text_admin}}會員</span>
+        <div class="col-xl-12 d-lg-flex align-items-center mb-3">
+            <div class="col-xl-5">
+                <img src="{{url('/webmgr/upload/members/'.$tb_Member->avator)}}" class="w-100 rounded-circle p-0" alt="Member Img">
+            </div>
+            <div class="col-xl-7 col-lg-12">
+                <span>{{$tb_Member->name}}</span>
+                <span class="badge @if($tb_Member->admin != 0) badge-warning @else badge-secondary @endif">{{$tb_Member->text_admin}}會員</span>
+            </div>
         </div>
         <div class="col-xl-12">
             <a href="{{url('/member/'.$tb_Member->id)}}" class="btn btn-outline-success">
