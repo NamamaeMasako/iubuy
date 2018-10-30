@@ -63,7 +63,7 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::group(['prefix' => 'products'], function () {
 		//頁面
 		Route::get('/', 'Products\PageController@index')->middleware('SignPost');
-		Route::get('/edit/{id}', 'Products\PageController@edit');
+		Route::get('/edit/{id}', 'Products\PageController@edit')->middleware('SignPost');
 		//功能
 		Route::patch('/edit/{id}', 'Products\FunctionController@update');
 		Route::delete('/delete/{id}', 'Products\FunctionController@delete')->middleware('IdentityCheck');

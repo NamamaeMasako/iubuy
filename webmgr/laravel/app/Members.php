@@ -21,7 +21,7 @@ class Members extends Model
 
     public function Shops()
     {
-        return $this->hasMany('App\Shops','members_id');
+        return $this->hasMany('App\Shops','id');
     }
 
     public function Employees()

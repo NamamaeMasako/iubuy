@@ -40,37 +40,6 @@ class RegisterController extends Controller
     {
         $this->middleware('guest');
     }
-
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|min:6|confirmed',
-            'password_confirmation' => 'required',
-        ]);
-    }
-
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return User
-     */
-    protected function create(array $data)
-    {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-        ]);
-    }
     
     public function register() {
         return view('auth.register');
@@ -82,7 +51,8 @@ class RegisterController extends Controller
                 'name' => 'required|max:255',
                 'email' => 'required|email|max:255|unique:users',
                 'password' => 'required|min:6|confirmed',
-                'agreement' => 'accepted'
+                'agreement' => 'accepted',
+                'g-recaptcha-response' => 'required|captcha'
             ],
             $messages = [
                 'name.required' => '使用者名稱 - 必填',
@@ -95,6 +65,8 @@ class RegisterController extends Controller
                 'password.min' => '密碼 - 至少六位英數字',
                 'password.confirmed' => '再次確認密碼 - 確認失敗',
                 'agreement.accepted' => '請同意提供個人資料',
+                'g-recaptcha-response.required' => '請驗證"我不是機器人"',
+                'g-recaptcha-response.captcha' => '"我不是機器人"驗證失敗 - 重新驗證',
             ]
         );
         $user_id = time();

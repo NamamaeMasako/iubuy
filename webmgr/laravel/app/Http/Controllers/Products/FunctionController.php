@@ -66,7 +66,7 @@ class FunctionController extends Controller
 
     public function search(Request $request)
     {
-        Cookie::queue(Cookie::forget('shopsSearch'));
+        Cookie::queue(Cookie::forget('productsSearch'));
         $arr_search = array_filter($request->all(),function($v){
             if($v != null){
 
@@ -82,17 +82,17 @@ class FunctionController extends Controller
                 $arr_search['created_at'][0] .=' 00:00:00';
                 $arr_search['created_at'][1] .=' 23:59:59';
             }
-            Cookie::queue('shopsSearch', $arr_search, $this->cookiesmins);
+            Cookie::queue('productsSearch', $arr_search, $this->cookiesmins);
         }
 
-    	return redirect('/shops')->withInput();
+    	return redirect('/products')->withInput();
     }
 
     public function clearsearch()
     {
-        Cookie::queue(Cookie::forget('shopsSearch'));
+        Cookie::queue(Cookie::forget('productsSearch'));
 
-        return redirect('/shops');
+        return redirect('/products');
     }
 
     public function update(Request $request,$products_id)

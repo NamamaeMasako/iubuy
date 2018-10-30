@@ -78,6 +78,7 @@
                                 <th>負責人</th>
                                 <th>建立時間</th>
                                 <th>權限</th>
+                                <th>商品列表</th>
                                 <th>編輯</th>
                                 @if(Auth::user()->admin == 0)
                                 <th>刪除</th>
@@ -96,8 +97,8 @@
                                         <img src="{{url('upload/shops/'.$row->logo)}}" class="img-circle elevation-2" alt="LOGO" width="50" height="50">
                                     </td>
                                     <td>
-                                        {{ $row->Members->name}}
-                                        <a href="{{url('members/edit/'.$row->Members->id)}}"><i class="fa fa-file-text"></i></a>
+                                        {{ $row->Members}}
+                                        <a href="{{url('members/edit/'.$row->Members)}}"><i class="fa fa-user"></i></a>
                                     </td>
                                     <td>
                                         {{ $row->created_at}}
@@ -116,6 +117,11 @@
                                             </span>
                                             @endif
                                         </a>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#productList-{{$row->id}}">
+                                            <i class="fa fa-file-text"></i>
+                                        </button>
                                     </td>
                                     <td>
                                         <a href="{{ url('/shops/edit/'.$row->id) }}" class="btn btn-success">
@@ -164,6 +170,75 @@
         </div>
     </div>
 </section>
+@foreach($tb_Shops as $row)
+<div class="modal fade" id="productList-{{$row->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">{{$row->name}}的商品列表</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @if(count($row->Products)>0)
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <th>
+                                商品編號
+                            </th>
+                            <th>
+                                商品名稱
+                            </th>
+                            <th>
+                                架上狀態
+                            </th>
+                            <th>
+                                編輯
+                            </th>
+                        </thead>
+                        <tbody>
+                            @foreach($row->Products as $product)
+                            <tr>
+                                <td>
+                                    {{$product->id}}
+                                </td>
+                                <td>
+                                    {{$product->name}}
+                                    @if($product->checked == 1)
+                                    <span class="badge badge-danger">{{$product->text_checked}}</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    <span class="font-weight-bold
+                                        @if($product->onshelf == 0) 
+                                        text-danger 
+                                        @elseif($product->onshelf == 1) 
+                                        text-success
+                                        @endif">
+                                        {{$product->text_onshelf}}
+                                    </span>
+                                </td>
+                                <td>
+                                    <a href="{{url('/products/edit/'.$product->id)}}" class="btn btn-success"><i class="fa fa-edit"></i></a>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                @else
+                <p>沒有商品可以交易</p>
+                @endif
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
+            </div>
+        </div>
+     </div>
+</div>
+@endforeach
 <form action='' id="quickEditForm" class="d-none" method="POST">
     {{ csrf_field() }}
     <input type="hidden" name="_method" value="">

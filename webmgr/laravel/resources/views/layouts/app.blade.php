@@ -35,6 +35,10 @@
         <link rel="stylesheet" href="{{url('plugins/daterangepicker/daterangepicker-bs3.css')}}">
         <!-- bootstrap wysihtml5 - text editor -->
         <link rel="stylesheet" href="{{url('plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css')}}">
+        <!-- Ion Slider -->
+        <link rel="stylesheet" href="{{url('plugins/ionslider/ion.rangeSlider.css')}}">
+        <!-- ion slider Nice -->
+        <link rel="stylesheet" href="{{url('plugins/ionslider/ion.rangeSlider.skinNice.css')}}">
         <!-- 自訂 -->
         <link rel="stylesheet" href="{{url('css/message.css')}}">
         <link rel="stylesheet" href="{{url('css/header.css')}}">
@@ -82,6 +86,8 @@
     <script src="{{url('plugins/datepicker/bootstrap-datepicker.js')}}"></script>
     <!-- Bootstrap WYSIHTML5 -->
     <script src="{{url('plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js')}}"></script>
+    <!-- Ion Slider -->
+    <script src="{{url('plugins/ionslider/ion.rangeSlider.min.js')}}"></script>
     <!-- Slimscroll -->
     <script src="{{url('plugins/slimScroll/jquery.slimscroll.min.js')}}"></script>
     <!-- AdminLTE App -->

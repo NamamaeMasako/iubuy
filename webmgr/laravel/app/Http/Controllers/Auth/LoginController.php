@@ -49,10 +49,15 @@ class LoginController extends Controller
     public function handleLogin(Request $request) {
         $this->validate($request,
             $rules = [
-                //'g-recaptcha-response' => 'required|captcha'
+                'email' => 'required',
+                'password' => 'required',
+                'g-recaptcha-response' => 'required|captcha'
             ],
             $messages = [
-                //'g-recaptcha-response.required' => '請驗證我不是機器人'
+                'email.required' => '帳號(Email) - 必填',
+                'password.required' => '密碼 - 必填',
+                'g-recaptcha-response.required' => '請驗證"我不是機器人"',
+                'g-recaptcha-response.captcha' => '"我不是機器人"驗證失敗 - 重新確認',
             ]
         );
 

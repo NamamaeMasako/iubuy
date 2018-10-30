@@ -28,4 +28,9 @@ class Shops extends Model
     {
         return $this->hasMany('App\Employees','shops_id');
     }
+
+    public function Products()
+    {
+        return $this->hasMany('App\Products','shops_id');
+    }
 }

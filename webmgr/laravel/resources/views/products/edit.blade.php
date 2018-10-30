@@ -54,8 +54,8 @@
                                 <label for="checked" class="col-sm-2">可否販售</label>
                                 <div class="col-sm-6">
                                     <select id="checked" name="checked" class="form-control">
-                                        <option value="0" @if($tb_Products->checked == 0) selected @endif>可</option>
-                                        <option value="1" @if($tb_Products->checked == 1) selected @endif>不可</option>
+                                        <option value="0" @if($tb_Products->checked == 0) selected @endif>可賣</option>
+                                        <option value="1" @if($tb_Products->checked == 1) selected @endif>禁賣</option>
                                     </select>
                                 </div>
                             </div>

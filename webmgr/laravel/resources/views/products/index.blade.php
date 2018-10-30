@@ -22,7 +22,7 @@
                 <div class="card-header">
                     <h3 class="card-title">搜尋商品</h3>
                 </div>
-                <form action="{{url('/shops/search')}}" method="get" class="form-horizontal" role="form">
+                <form action="{{url('/products/search')}}" method="get" class="form-horizontal" role="form">
                     <div class="card-body">
                         <div class="row form-group">
                             <label for="created_at" class="col-sm-1">建立時間</label>
@@ -40,20 +40,36 @@
                             <div class="col-sm-2">
                                 <input type="text" name="name" class="form-control" id="name" value="{{isset($arr_search['name'])?$arr_search['name']:''}}">
                             </div>
+                            <label for="name" class="col-sm-1">建議售價</label>
+                            <div class="col-sm-3">
+                                <div class="input-group">
+                                    <input type="number" name="price[]" class="form-control" value="{{isset($arr_search['price'])?$arr_search['price'][0]:0}}">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">元</span>
+                                    </div>
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">~</span>
+                                    </div>
+                                    <input type="number" name="price[]" class="form-control" value="{{isset($arr_search['price'])?$arr_search['price'][1]:0}}">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">元</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="row form-group">
-                            <label for="premission" class="col-sm-1">權限</label>
+                            <label for="checked" class="col-sm-1">可否販賣</label>
                             <div class="col-sm-2">
-                                <select name="premission" class="form-control" id="premission">
-                                    <option value="" @if(!isset($arr_search['premission'])) selected @endif>--請選擇--</option>
-                                    <option value="1" @if(isset($arr_search['premission'])) @if($arr_search['premission'] == 1) selected @endif @endif>開放</option>
-                                    <option value="0" @if(isset($arr_search['premission'])) @if($arr_search['premission'] == 0) selected @endif @endif>停權</option>
+                                <select name="checked" class="form-control" id="checked">
+                                    <option value="" @if(!isset($arr_search['checked'])) selected @endif>--請選擇--</option>
+                                    <option value="0" @if(isset($arr_search['checked'])) @if($arr_search['checked'] == 0) selected @endif @endif>可賣</option>
+                                    <option value="1" @if(isset($arr_search['checked'])) @if($arr_search['checked'] == 1) selected @endif @endif>禁賣</option>
                                 </select>
                             </div>
                         </div>
                     </div>
                     <div class="card-footer">
-                        <a href="{{url('/shops/clearsearch')}}" class="btn btn-secondary">清除搜尋條件</a>
+                        <a href="{{url('/products/clearsearch')}}" class="btn btn-secondary">清除搜尋條件</a>
                         <button type="submit" class="btn btn-primary"><i class="fa fa-search mr-1"></i>搜尋</button>
                     </div>
                 </form>
@@ -74,9 +90,9 @@
                             <thead>
                                 <th>編號</th>
                                 <th>商品</th>
+                                <th>建議售價</th>
                                 <th>上傳商家</th>
                                 <th>建立時間</th>
-                                <th>可否販售</th>
                                 <th>編輯</th>
                                 @if(Auth::user()->admin == 0)
                                 <th>刪除</th>
@@ -90,16 +106,19 @@
                                     </td>
                                     <td>
                                         {{ $row->name }}
+                                        @if($row->checked == 1)
+                                        <span class="badge badge-danger">{{$row->text_checked}}</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        {{ $row->original_price }} 元
                                     </td>
                                     <td>
                                         {{ $row->Shops->name}}
-                                        <a href="{{url('shops/edit/'.$row->Shops->id)}}"><i class="fa fa-fort-awesome"></i></a>
+                                        <a href="{{url('shops/edit/'.$row->Shops->id)}}"><i class="fa fa-shopping-bag"></i></a>
                                     </td>
                                     <td>
                                         {{ $row->created_at}}
-                                    </td>
-                                    <td>
-                                        {{ $row->text_checked}}
                                     </td>
                                     <td>
                                         <a href="{{ url('/products/edit/'.$row->id) }}" class="btn btn-success">

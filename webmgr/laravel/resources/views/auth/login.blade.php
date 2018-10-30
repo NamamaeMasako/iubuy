@@ -10,46 +10,44 @@
             <form method="POST" action="{{ url('/login') }}">
                 {!! csrf_field() !!}
                 <div class="card-body">
-                    <div class="form-group has-feedback">
+                    <div class="form-group">
                         <label for="email">帳號(email)</label>
                         <div class="input-group">
                             <input type="email" class="form-control" name="email" value="{{ old('email') }}">
                         </div>
                     </div>
-                    <div class="form-group has-feedback">
+                    <div class="form-group">
                         <label for="password">密碼</label>
                         <div class="input-group">
                             <input type="password" class="form-control" name="password"> 
-                            <span class="input-group-btn">
-                                <a href="{{url('/forgetPassword')}}" class="btn btn-secondary btn-flat disabled">忘記密碼</a>
-                            </span>
+                            <a href="{{url('/forgetPassword')}}" class="btn btn-secondary btn-flat disabled">忘記密碼</a>
                         </div>
                     </div>
-                    <div class="form-group has-feedback">
+                    <div class="form-group">
                         <div class="input-group">
                             <label class="form-control border-0 text-left">
                                 <input type="checkbox" name="remember" class="flat-red">
                                 Remember Me
                             </label>
-                            <span class="input-group-btn">
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fa fa-sign-in mr-2"></i>登入
-                                </button>
-                                @if(count(App\User::all()) <= 0)
-                                    <a href="{{url('/register')}}" class="btn btn-success">註冊</a>
-                                @endif
-                            </span>
                         </div>
                     </div>
-                    {{-- <div class="form-group has-feedback">
-                        <label class="col-md-4 control-label"></label>
-
-                        <div class="col-md-6">
-                            {!! app('captcha')->display(); !!}
+                    <div class="form-group">
+                        {!! Captcha::display(); !!}
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group justify-content-around">
+                            @if(count(App\User::all()) <= 0)
+                                <a href="{{url('/register')}}" class="btn btn-success">註冊</a>
+                            @endif
+                            <a href="{{url('/register')}}" class="btn btn-success">註冊</a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa fa-sign-in mr-2"></i>登入
+                            </button>
                         </div>
-
-                    </div> --}}
-                    @if (count($errors) > 0)
+                    </div>
+                </div>
+                @if (count($errors) > 0)
+                <div class="card-footer">
                     <div class="alert alert-danger">
                         <ul class="mb-0">
                             @foreach ($errors->all() as $error)
@@ -57,8 +55,8 @@
                             @endforeach
                         </ul>
                     </div>
-                    @endif      
                 </div>
+                @endif    
             </form>
         </div>
     </div>

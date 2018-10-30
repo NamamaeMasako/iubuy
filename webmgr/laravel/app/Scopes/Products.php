@@ -13,7 +13,8 @@ class Products implements Scope
     {
         return $builder->select(DB::raw("
         	*,
-            CASE Products.checked WHEN 0 THEN '可' WHEN 1 THEN '不可' END as text_checked
+            CASE Products.checked WHEN 0 THEN '可賣' WHEN 1 THEN '禁賣' END as text_checked,
+            CASE Products.onshelf WHEN 0 THEN '下架' WHEN 1 THEN '上架' END as text_onshelf
             "
             ));
     }

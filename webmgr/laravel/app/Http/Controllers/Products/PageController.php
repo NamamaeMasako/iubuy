@@ -28,15 +28,12 @@ class PageController extends Controller
             if(isset($arr_search['name'])){
                 $tb_Products = $tb_Products->where('name','like','%'.$arr_search['name'].'%');
             }
-            if(isset($arr_search['email'])){
-                $tb_Products = $tb_Products->where('email','like','%'.$arr_search['email'].'%');
+            if(isset($arr_search['checked'])){
+                $tb_Products = $tb_Products->where('checked',$arr_search['checked']);
             }
-            if(isset($arr_search['admin'])){
-                $tb_Products = $tb_Products->where('admin',$arr_search['admin']);
+            if(isset($arr_search['price'])){
+                $tb_Products = $tb_Products->whereBetween('original_price',$arr_search['price']);
             }
-            if(isset($arr_search['premission'])){
-                $tb_Products = $tb_Products->where('premission',$arr_search['premission']);
-            }  
         }
         $tb_Products = $tb_Products->paginate(10);
 
