@@ -13,9 +13,9 @@ class Products implements Scope
     {
         return $builder->select(DB::raw("
         	*,
-            CASE Products.checked WHEN 0 THEN '可賣' WHEN 1 THEN '禁賣' END as text_checked,
-            CASE Products.onshelf WHEN 0 THEN '下架' WHEN 1 THEN '上架' END as text_onshelf
+            CASE Products.checked WHEN 0 THEN '禁賣' WHEN 1 THEN '省略' WHEN 2 THEN '合格' END as text_checked,
+            CASE Products.onshelf WHEN 0 THEN '已下架' WHEN 1 THEN '上架中' END as text_onshelf
             "
-            ));
+        ));
     }
 }

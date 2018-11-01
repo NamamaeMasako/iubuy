@@ -13,7 +13,7 @@ class Shops implements Scope
     {
         return $builder->select(DB::raw("
         	*,
-            CASE Shops.premission WHEN 1 THEN '開放' WHEN 0 THEN '停權' END as text_premission
+            CASE Shops.premission WHEN 2 THEN '營業' WHEN 1 THEN '休息' WHEN 0 THEN '禁賣' END as text_premission
             "
             ));
     }

@@ -24,11 +24,6 @@ class Shops extends Model
         return $this->belongsTo('App\Members','members_id');
     }
 
-    public function Employees()
-    {
-        return $this->hasMany('App\Employees','shops_id');
-    }
-
     public function Products()
     {
         return $this->hasMany('App\Products','shops_id');
