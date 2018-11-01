@@ -39,11 +39,12 @@
                             </div>
                         </div>
                         <div class="row form-group">
-                            <label for="premission" class="col-sm-2">權限</label>
+                            <label for="premission" class="col-sm-2">商家狀態</label>
                             <div class="col-sm-6">
                                 <select id="premission" class="form-control" onchange="reset_confirm('premissionReset',this.value);">
-                                    <option value="1" @if($tb_Shops->premission == 1) selected @endif>開放</option>
-                                    <option value="0" @if($tb_Shops->premission == 0) selected @endif>停權</option>
+                                    <option value="2" @if($tb_Shops->premission == 2) selected @endif>營業中</option>
+                                    <option value="1" @if($tb_Shops->premission == 1) selected @endif>休息中</option>
+                                    <option value="0" @if($tb_Shops->premission == 0) selected @endif>禁賣</option>
                                 </select>
                             </div>
                         </div>
@@ -88,14 +89,14 @@
                                         @foreach(json_decode($tb_Shops->info)->email  as $idx => $row)
                                             @if($idx == 0)
                                             <div class="input-group col-sm-8">
-                                                <input type="email" name="info_email[]" class="form-control" value="{{$row}}" readonly>
+                                                <input type="email" name="info_email[]" class="form-control" value="{{$row}}">
                                                 <div class="input-group-append">
                                                     <span class="btn btn-success" onclick="increase_input('email','email');"><i class="fa fa-plus"></i></span>
                                                 </div>
                                             </div>
                                             @else
                                             <div class="input-group col-sm-8 offset-sm-2 mt-1">
-                                                <input type="text" name="info_email[]" class="form-control" value="{{$row}}" readonly>
+                                                <input type="text" name="info_email[]" class="form-control" value="{{$row}}">
                                                 <div class="input-group-append">
                                                     <span class="btn btn-danger" onclick="decrease_input.call(this);"><i class="fa fa-minus"></i></span>
                                                 </div>
@@ -108,14 +109,14 @@
                                         @foreach(json_decode($tb_Shops->info)->phone  as $idx => $row)
                                             @if($idx == 0)
                                             <div class="input-group col-sm-8">
-                                                <input type="text" name="phone[]" class="form-control" value="{{$row}}" readonly>
+                                                <input type="text" name="phone[]" class="form-control" value="{{$row}}">
                                                 <div class="input-group-append">
                                                     <span class="btn btn-success" onclick="increase_input('phone','text');"><i class="fa fa-plus"></i></span>
                                                 </div>
                                             </div>
                                             @else
                                             <div class="input-group col-sm-8 offset-sm-2 mt-1">
-                                                <input type="text" name="phone[]" class="form-control" value="{{$row}}" readonly>
+                                                <input type="text" name="phone[]" class="form-control" value="{{$row}}">
                                                 <div class="input-group-append">
                                                     <span class="btn btn-danger" onclick="decrease_input.call(this);"><i class="fa fa-minus"></i></span>
                                                 </div>
@@ -128,14 +129,14 @@
                                         @foreach(json_decode($tb_Shops->info)->address  as $idx => $row)
                                             @if($idx == 0)
                                             <div class="input-group col-sm-8">
-                                                <input type="text" name="address[]" class="form-control" value="{{$row}}" readonly>
+                                                <input type="text" name="address[]" class="form-control" value="{{$row}}">
                                                 <div class="input-group-append">
                                                     <span class="btn btn-success" onclick="increase_input('address','text');"><i class="fa fa-plus"></i></span>
                                                 </div>
                                             </div>
                                             @else
                                             <div class="input-group col-sm-8 offset-sm-2 mt-1">
-                                                <input type="text" name="address[]" class="form-control" value="{{$row}}" readonly>
+                                                <input type="text" name="address[]" class="form-control" value="{{$row}}">
                                                 <div class="input-group-append">
                                                     <span class="btn btn-danger" onclick="decrease_input.call(this);"><i class="fa fa-minus"></i></span>
                                                 </div>

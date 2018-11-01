@@ -31,6 +31,9 @@ class PageController extends Controller
             if(isset($arr_search['checked'])){
                 $tb_Products = $tb_Products->where('checked',$arr_search['checked']);
             }
+            if(isset($arr_search['onshelf'])){
+                $tb_Products = $tb_Products->where('onshelf',$arr_search['onshelf']);
+            }
             if(isset($arr_search['price'])){
                 $tb_Products = $tb_Products->whereBetween('original_price',$arr_search['price']);
             }

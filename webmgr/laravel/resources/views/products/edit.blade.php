@@ -51,11 +51,21 @@
                                 </div>
                             </div>
                             <div class="row form-group">
-                                <label for="checked" class="col-sm-2">可否販售</label>
+                                <label for="onshelf" class="col-sm-2">架上狀態</label>
+                                <div class="col-sm-6">
+                                    <select id="onshelf" name="onshelf" class="form-control">
+                                        <option value="1" @if($tb_Products->onshelf == 1) selected @endif>上架中</option>
+                                        <option value="0" @if($tb_Products->onshelf == 0) selected @endif>已下架</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <label for="checked" class="col-sm-2">審查狀態</label>
                                 <div class="col-sm-6">
                                     <select id="checked" name="checked" class="form-control">
-                                        <option value="0" @if($tb_Products->checked == 0) selected @endif>可賣</option>
-                                        <option value="1" @if($tb_Products->checked == 1) selected @endif>禁賣</option>
+                                        <option value="1" @if($tb_Products->checked == 2) selected @endif>合格</option>
+                                        <option value="1" @if($tb_Products->checked == 1) selected @endif>省略</option>
+                                        <option value="0" @if($tb_Products->checked == 0) selected @endif>禁賣</option>
                                     </select>
                                 </div>
                             </div>

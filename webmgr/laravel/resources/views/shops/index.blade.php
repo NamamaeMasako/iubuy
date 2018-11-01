@@ -40,14 +40,19 @@
                             <div class="col-sm-2">
                                 <input type="text" name="name" class="form-control" id="name" value="{{isset($arr_search['name'])?$arr_search['name']:''}}">
                             </div>
+                            <label for="ownername" class="col-sm-1">負責人</label>
+                            <div class="col-sm-2">
+                                <input type="text" name="ownername" class="form-control" id="ownername" value="{{isset($arr_search['ownername'])?$arr_search['ownername']:''}}">
+                            </div>
                         </div>
                         <div class="row form-group">
-                            <label for="premission" class="col-sm-1">權限</label>
+                            <label for="premission" class="col-sm-1">商家狀態</label>
                             <div class="col-sm-2">
                                 <select name="premission" class="form-control" id="premission">
                                     <option value="" @if(!isset($arr_search['premission'])) selected @endif>--請選擇--</option>
-                                    <option value="1" @if(isset($arr_search['premission'])) @if($arr_search['premission'] == 1) selected @endif @endif>開放</option>
-                                    <option value="0" @if(isset($arr_search['premission'])) @if($arr_search['premission'] == 0) selected @endif @endif>停權</option>
+                                    <option value="2" @if(isset($arr_search['premission'])) @if($arr_search['premission'] == 1) selected @endif @endif>營業中</option>
+                                    <option value="1" @if(isset($arr_search['premission'])) @if($arr_search['premission'] == 1) selected @endif @endif>休息中</option>
+                                    <option value="0" @if(isset($arr_search['premission'])) @if($arr_search['premission'] == 0) selected @endif @endif>禁賣</option>
                                 </select>
                             </div>
                         </div>
@@ -77,7 +82,7 @@
                                 <th>商標</th>
                                 <th>負責人</th>
                                 <th>建立時間</th>
-                                <th>權限</th>
+                                <th>商家狀態</th>
                                 <th>商品列表</th>
                                 <th>編輯</th>
                                 @if(Auth::user()->admin == 0)
@@ -97,26 +102,41 @@
                                         <img src="{{url('upload/shops/'.$row->logo)}}" class="img-circle elevation-2" alt="LOGO" width="50" height="50">
                                     </td>
                                     <td>
-                                        {{ $row->Members}}
+                                        {{ $row->Members->name}}
                                         <a href="{{url('members/edit/'.$row->Members)}}"><i class="fa fa-user"></i></a>
                                     </td>
                                     <td>
                                         {{ $row->created_at}}
                                     </td>
                                     <td>
-                                        <a href="javascript:void(0)" onclick="quickEdit('update',{{$row->id}},'premission',{{ $row->premission}});">
-                                            @if($row->premission == 1)
-                                            <span class="text-success">
-                                                <span class="h3"><i class="fa fa-toggle-on"></i></span>
-                                                <span class="h4">{{ $row->text_premission}}</span>
-                                            </span>
-                                            @else
-                                            <span class="text-danger">
-                                                <span class="h3"><i class="fa fa-toggle-off"></i></span>
-                                                <span class="h4">{{ $row->text_premission}}</span>
-                                            </span>
-                                            @endif
-                                        </a>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text
+                                                @if($row->premission == 2)
+                                                bg-success
+                                                @elseif($row->premission == 0)
+                                                bg-danger
+                                                @endif">
+                                                    @if($row->premission == 2)
+                                                    <i class="fa fa-smile-o"></i>
+                                                    @elseif($row->premission == 1)
+                                                    <i class="fa fa-meh-o"></i>
+                                                    @elseif($row->premission == 0)
+                                                    <i class="fa fa-frown-o"></i>
+                                                    @endif
+                                                </span>
+                                            </div>
+                                            <select class="form-control
+                                            @if($row->premission == 2)
+                                            text-success
+                                            @elseif($row->premission == 0)
+                                            text-danger
+                                            @endif" onchange="quickEdit('update',{{$row->id}},'premission',this.value)">
+                                                <option value="2" class="text-success" @if($row->premission == 2) selected @endif>營業中</option>
+                                                <option value="1" class="text-dark" @if($row->premission == 1) selected @endif>休息中</option>
+                                                <option value="0" class="text-danger" @if($row->premission == 0) selected @endif>禁賣</option>
+                                            </select>
+                                        </div>
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#productList-{{$row->id}}">
@@ -206,7 +226,7 @@
                                 </td>
                                 <td>
                                     {{$product->name}}
-                                    @if($product->checked == 1)
+                                    @if($product->checked == 0)
                                     <span class="badge badge-danger">{{$product->text_checked}}</span>
                                     @endif
                                 </td>
@@ -266,9 +286,7 @@
         if(type == 'update'){
             $("input[name='_method']").val('patch');
             $("#quickEditForm").attr('action','{{url('/shops/edit')}}/'+shop_id);
-            var value;
-            value = origin_value == 1? 0:1;
-            $("#quickEditForm").append('<input type="hidden" name="'+field+'" value="'+value.toString()+'">');
+            $("#quickEditForm").append('<input type="hidden" name="'+field+'" value="'+origin_value.toString()+'">');
             $("#quickEditForm").append('<input type="hidden" name="quick" value="1">');
         }else if(type == 'delete'){
             $("input[name='_method']").val('delete');

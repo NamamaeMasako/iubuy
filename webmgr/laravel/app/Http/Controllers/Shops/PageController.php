@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Shops;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Members;
 use App\Shops;
 use Cookie;
 
@@ -27,15 +28,13 @@ class PageController extends Controller
             if(isset($arr_search['name'])){
                 $tb_Shops = $tb_Shops->where('name','like','%'.$arr_search['name'].'%');
             }
-            if(isset($arr_search['email'])){
-                $tb_Shops = $tb_Shops->where('email','like','%'.$arr_search['email'].'%');
-            }
-            if(isset($arr_search['admin'])){
-                $tb_Shops = $tb_Shops->where('admin',$arr_search['admin']);
-            }
             if(isset($arr_search['premission'])){
                 $tb_Shops = $tb_Shops->where('premission',$arr_search['premission']);
-            }  
+            }
+            if(isset($arr_search['ownername'])){
+                $tb_Members = Members::where('name','like','%'.$arr_search['ownername'].'%');
+                $tb_Shops = $tb_Shops->whereIn('members_id',$tb_Members->pluck('id'));
+            }
         }
         $tb_Shops = $tb_Shops->paginate(10);
 

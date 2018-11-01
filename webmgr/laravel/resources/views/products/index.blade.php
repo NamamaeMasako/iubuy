@@ -43,14 +43,14 @@
                             <label for="name" class="col-sm-1">建議售價</label>
                             <div class="col-sm-3">
                                 <div class="input-group">
-                                    <input type="number" name="price[]" class="form-control" value="{{isset($arr_search['price'])?$arr_search['price'][0]:0}}">
+                                    <input type="number" name="price[]" class="form-control" min="0" value="{{isset($arr_search['price'])?$arr_search['price'][0]:0}}">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">元</span>
                                     </div>
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">~</span>
                                     </div>
-                                    <input type="number" name="price[]" class="form-control" value="{{isset($arr_search['price'])?$arr_search['price'][1]:0}}">
+                                    <input type="number" name="price[]" class="form-control" min="0" value="{{isset($arr_search['price'])?$arr_search['price'][1]:0}}">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">元</span>
                                     </div>
@@ -58,12 +58,21 @@
                             </div>
                         </div>
                         <div class="row form-group">
-                            <label for="checked" class="col-sm-1">可否販賣</label>
+                            <label for="onshelf" class="col-sm-1">架上狀態</label>
+                            <div class="col-sm-2">
+                                <select name="onshelf" class="form-control" id="onshelf">
+                                    <option value="" @if(!isset($arr_search['onshelf'])) selected @endif>--請選擇--</option>
+                                    <option value="1" @if(isset($arr_search['onshelf'])) @if($arr_search['onshelf'] == 1) selected @endif @endif>上架中</option>
+                                    <option value="0" @if(isset($arr_search['onshelf'])) @if($arr_search['onshelf'] == 0) selected @endif @endif>已下架</option>
+                                </select>
+                            </div>
+                            <label for="checked" class="col-sm-1">審查狀態</label>
                             <div class="col-sm-2">
                                 <select name="checked" class="form-control" id="checked">
                                     <option value="" @if(!isset($arr_search['checked'])) selected @endif>--請選擇--</option>
-                                    <option value="0" @if(isset($arr_search['checked'])) @if($arr_search['checked'] == 0) selected @endif @endif>可賣</option>
-                                    <option value="1" @if(isset($arr_search['checked'])) @if($arr_search['checked'] == 1) selected @endif @endif>禁賣</option>
+                                    <option value="2" @if(isset($arr_search['checked'])) @if($arr_search['checked'] == 2) selected @endif @endif>合格</option>
+                                    <option value="1" @if(isset($arr_search['checked'])) @if($arr_search['checked'] == 1) selected @endif @endif>省略</option>
+                                    <option value="0" @if(isset($arr_search['checked'])) @if($arr_search['checked'] == 0) selected @endif @endif>禁賣</option>
                                 </select>
                             </div>
                         </div>
@@ -93,6 +102,8 @@
                                 <th>建議售價</th>
                                 <th>上傳商家</th>
                                 <th>建立時間</th>
+                                <th>架上狀態</th>
+                                <th>審查狀態</th>
                                 <th>編輯</th>
                                 @if(Auth::user()->admin == 0)
                                 <th>刪除</th>
@@ -106,9 +117,6 @@
                                     </td>
                                     <td>
                                         {{ $row->name }}
-                                        @if($row->checked == 1)
-                                        <span class="badge badge-danger">{{$row->text_checked}}</span>
-                                        @endif
                                     </td>
                                     <td>
                                         {{ $row->original_price }} 元
@@ -119,6 +127,63 @@
                                     </td>
                                     <td>
                                         {{ $row->created_at}}
+                                    </td>
+                                    <td>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text
+                                                @if($row->onshelf == 1)
+                                                bg-success
+                                                @elseif($row->onshelf == 0)
+                                                bg-danger
+                                                @endif">
+                                                    @if($row->onshelf == 1)
+                                                    <i class="fa fa-smile-o"></i>
+                                                    @elseif($row->onshelf == 0)
+                                                    <i class="fa fa-frown-o"></i>
+                                                    @endif
+                                                </span>
+                                            </div>
+                                            <select class="form-control
+                                            @if($row->onshelf == 1)
+                                            text-success
+                                            @elseif($row->onshelf == 0)
+                                            text-danger
+                                            @endif" onchange="quickEdit('update',{{$row->id}},'onshelf',this.value)">
+                                                <option value="1" class="text-success" @if($row->onshelf == 1) selected @endif>上架中</option>
+                                                <option value="0" class="text-danger" @if($row->onshelf == 0) selected @endif>已下架</option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text
+                                                @if($row->checked == 2)
+                                                bg-success
+                                                @elseif($row->checked == 0)
+                                                bg-danger
+                                                @endif">
+                                                    @if($row->checked == 2)
+                                                    <i class="fa fa-smile-o"></i>
+                                                    @elseif($row->checked == 1)
+                                                    <i class="fa fa-meh-o"></i>
+                                                    @elseif($row->checked == 0)
+                                                    <i class="fa fa-frown-o"></i>
+                                                    @endif
+                                                </span>
+                                            </div>
+                                            <select class="form-control
+                                            @if($row->checked == 2)
+                                            text-success
+                                            @elseif($row->checked == 0)
+                                            text-danger
+                                            @endif" onchange="quickEdit('update',{{$row->id}},'checked',this.value)">
+                                                <option value="2" class="text-success" @if($row->checked == 2) selected @endif>合格</option>
+                                                <option value="1" class="text-dark" @if($row->checked == 1) selected @endif>省略</option>
+                                                <option value="0" class="text-danger" @if($row->checked == 0) selected @endif>禁賣</option>
+                                            </select>
+                                        </div>
                                     </td>
                                     <td>
                                         <a href="{{ url('/products/edit/'.$row->id) }}" class="btn btn-success">

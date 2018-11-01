@@ -82,6 +82,9 @@ class FunctionController extends Controller
                 $arr_search['created_at'][0] .=' 00:00:00';
                 $arr_search['created_at'][1] .=' 23:59:59';
             }
+            if(!empty($arr_search['price']) && $arr_search['price'][0] == 0 && $arr_search['price'][1] == 0){
+                unset($arr_search['price']);
+            }
             Cookie::queue('productsSearch', $arr_search, $this->cookiesmins);
         }
 
