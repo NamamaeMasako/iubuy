@@ -129,31 +129,21 @@
                                         {{ $row->created_at}}
                                     </td>
                                     <td>
+                                        @if(count($tb_Productlists->find($row->id))>0)
+                                        {{$tb_Productlists->find($row->id)->selling}}
+                                        @else
                                         <div class="input-group">
                                             <div class="input-group-prepend">
-                                                <span class="input-group-text
-                                                @if($row->onshelf == 1)
-                                                bg-success
-                                                @elseif($row->onshelf == 0)
-                                                bg-danger
-                                                @endif">
-                                                    @if($row->onshelf == 1)
-                                                    <i class="fa fa-smile-o"></i>
-                                                    @elseif($row->onshelf == 0)
+                                                <span class="input-group-text bg-danger">
                                                     <i class="fa fa-frown-o"></i>
-                                                    @endif
                                                 </span>
                                             </div>
-                                            <select class="form-control
-                                            @if($row->onshelf == 1)
-                                            text-success
-                                            @elseif($row->onshelf == 0)
-                                            text-danger
-                                            @endif" onchange="quickEdit('update',{{$row->id}},'onshelf',this.value)">
-                                                <option value="1" class="text-success" @if($row->onshelf == 1) selected @endif>上架中</option>
-                                                <option value="0" class="text-danger" @if($row->onshelf == 0) selected @endif>已下架</option>
+                                            <select class="form-control text-danger" onchange="quickEdit('update',{{$row->id}},'onshelf',this.value)">
+                                                <option value="1" class="text-success">上架中</option>
+                                                <option value="0" class="text-danger" selected>已下架</option>
                                             </select>
                                         </div>
+                                        @endif
                                     </td>
                                     <td>
                                         <div class="input-group">

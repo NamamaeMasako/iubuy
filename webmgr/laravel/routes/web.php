@@ -59,7 +59,18 @@ Route::group(['middleware' => ['auth']], function () {
 		Route::get('/search', 'Shops\FunctionController@search');
 		Route::get('/clearsearch', 'Shops\FunctionController@clearsearch');
 	});
-	//商家中心
+	//員工管理
+	Route::group(['prefix' => 'employees'], function () {
+		//頁面
+		Route::get('/', 'Employees\PageController@index')->middleware('SignPost');
+		Route::get('/edit/{id}', 'Employees\PageController@edit');
+		//功能
+		Route::patch('/edit/{id}', 'Employees\FunctionController@update');
+		Route::delete('/delete/{id}', 'Employees\FunctionController@delete')->middleware('IdentityCheck');
+		Route::get('/search', 'Employees\FunctionController@search');
+		Route::get('/clearsearch', 'Employees\FunctionController@clearsearch');
+	});
+	//商品中心
 	Route::group(['prefix' => 'products'], function () {
 		//頁面
 		Route::get('/', 'Products\PageController@index')->middleware('SignPost');

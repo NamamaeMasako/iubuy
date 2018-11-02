@@ -96,7 +96,7 @@
                         <div class="row form-group">
                             <label class="col-sm-1">管理員頭像</label>
                             <div class="col-sm-5">
-                                <label for="avator" class="btn btn-info btn-sm mb-1"><i class="fa fa-share"></i>上傳</label>
+                                <label for="avator" class="btn btn-info btn-sm mb-1"><i class="fa fa-upload"></i>上傳</label>
                                 <span id="show_fileInfo">(僅限上傳jpg,png,gif檔案,大小:250x250)</span>
                                 <input type="file" id="avator" name="avator" style="display: none;" onchange="show_fileInfo();">
                                 <div class="row">

@@ -39,11 +39,25 @@
                         <p>會員中心</p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="{{url('/shops')}}" class="nav-link" id="shops">
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
                         <i class="nav-icon fa fa-shopping-bag"></i>
-                        <p>商家中心</p>
+                        <p>商家中心<i class="fa fa-angle-left right"></i></p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{url('/shops')}}" class="nav-link" id="shops">
+                                <i class="nav-icon fa fa-circle-o"></i>
+                                <p>商家列表</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{url('/employees')}}" class="nav-link" id="employees">
+                                <i class="nav-icon fa fa-circle-o"></i>
+                                <p>員工管理</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="nav-item">
                     <a href="{{url('/products')}}" class="nav-link" id="products">

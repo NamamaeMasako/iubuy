@@ -146,7 +146,10 @@
         signPost('{{\Session::get('active-tab')}}');
         function signPost(tab) {
             $("#sidebar-menu li a").removeClass('active');
+            $(".has-treeview").removeClass("menu-open");
             $("#"+tab).addClass("active");
+            $("#"+tab).parents(".has-treeview").addClass("menu-open");
+            $(".menu-open").children("a:first").addClass("active");
         }
     </script>
     <!-- auto collapse message -->

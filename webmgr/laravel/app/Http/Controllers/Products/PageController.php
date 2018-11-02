@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Products;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Products;
+use App\Productlists;
 use App\Shops;
 use Cookie;
 
@@ -38,10 +39,12 @@ class PageController extends Controller
                 $tb_Products = $tb_Products->whereBetween('original_price',$arr_search['price']);
             }
         }
+        $tb_Productlists = Productlists::where('selling',1);
         $tb_Products = $tb_Products->paginate(10);
 
     	return view('products.index',[
             "arr_search" => $arr_search,
+            "tb_Productlists" => $tb_Productlists,
             "tb_Products" => $tb_Products
         ]);
     }

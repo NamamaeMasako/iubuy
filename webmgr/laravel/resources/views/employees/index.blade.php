@@ -4,12 +4,16 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0 text-dark"><i class="nav-icon fa fa-shopping-bag mr-1"></i>商家中心</h1>
+                <h1 class="m-0 text-dark">
+                    <i class="nav-icon fa fa-shopping-bag mr-1"></i>商家中心
+                    <small><i class="fa fa-chevron-right"></i>員工管理</small>
+                </h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{url('/')}}">總覽</a></li>
-                    <li class="breadcrumb-item active">商家中心</li>
+                    <li class="breadcrumb-item">商家中心</li>
+                    <li class="breadcrumb-item active">員工管理</li>
                 </ol>
             </div>
         </div>
@@ -40,7 +44,7 @@
                             <div class="col-sm-2">
                                 <input type="text" name="name" class="form-control" id="name" value="{{isset($arr_search['name'])?$arr_search['name']:''}}">
                             </div>
-                            <label for="ownername" class="col-sm-1">創立人</label>
+                            <label for="ownername" class="col-sm-1">負責人</label>
                             <div class="col-sm-2">
                                 <input type="text" name="ownername" class="form-control" id="ownername" value="{{isset($arr_search['ownername'])?$arr_search['ownername']:''}}">
                             </div>
@@ -80,7 +84,7 @@
                                 <th>編號</th>
                                 <th>商家</th>
                                 <th>商標</th>
-                                <th>創立人</th>
+                                <th>負責人</th>
                                 <th>建立時間</th>
                                 <th>商家狀態</th>
                                 <th>商品列表</th>

@@ -33,7 +33,7 @@
                             </div>
                         </div>
                         <div class="row form-group">
-                            <label for="email" class="col-sm-2">創立人</label>
+                            <label for="email" class="col-sm-2">負責人</label>
                             <div class="col-sm-6">
                                 <input type="email" id="email" class="form-control" value="{{ $tb_Shops->Members->name }}" disabled>
                             </div>
@@ -125,7 +125,7 @@
                                         @endforeach
                                     </div>
                                     <div id="address-input" class="row form-group">
-                                        <label for="infoAddress" class="col-sm-2">出貨地址</label>
+                                        <label for="infoAddress" class="col-sm-2">收貨地址</label>
                                         @foreach(json_decode($tb_Shops->info)->address  as $idx => $row)
                                             @if($idx == 0)
                                             <div class="input-group col-sm-8">
