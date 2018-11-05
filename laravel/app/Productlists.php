@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Product_lists extends Model
+class Productlists extends Model
 {
     public $timestamps = true;
     protected $table   = 'product_lists';

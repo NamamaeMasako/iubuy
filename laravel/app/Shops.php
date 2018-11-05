@@ -31,6 +31,6 @@ class Shops extends Model
 
     public function Product_lists()
     {
-        return $this->hasMany('App\Product_lists','shops_id');
+        return $this->hasMany('App\Productlists','shops_id');
     }
 }

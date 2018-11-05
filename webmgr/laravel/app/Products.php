@@ -26,6 +26,6 @@ class Products extends Model
 
     public function Productlists()
     {
-        return $this->hasMany('App\Productlists','products_id');
+        return $this->hasMany('App\Productlists','products_id')->orderby('selling','desc')->orderby('created_at','desc');
     }
 }

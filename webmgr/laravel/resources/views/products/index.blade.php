@@ -129,21 +129,26 @@
                                         {{ $row->created_at}}
                                     </td>
                                     <td>
-                                        @if(count($tb_Productlists->find($row->id))>0)
-                                        {{$tb_Productlists->find($row->id)->selling}}
-                                        @else
                                         <div class="input-group">
+                                            @if(count($row->Productlists)>0 && $row->Productlists[0]->selling == 1)
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text bg-success">
+                                                    <i class="fa fa-smile-o"></i>
+                                                </span>
+                                            </div>
+                                            <select class="form-control text-success" onchange="quickEdit('update',{{$row->Productlists[0]->id}},'selling',this.value)">
+                                                <option value="1" class="text-success" selected>上架中</option>
+                                                <option value="0" class="text-danger">已下架</option>
+                                            </select>
+                                            @else
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text bg-danger">
                                                     <i class="fa fa-frown-o"></i>
                                                 </span>
                                             </div>
-                                            <select class="form-control text-danger" onchange="quickEdit('update',{{$row->id}},'onshelf',this.value)">
-                                                <option value="1" class="text-success">上架中</option>
-                                                <option value="0" class="text-danger" selected>已下架</option>
-                                            </select>
+                                            <input type="text" class="form-control text-danger" value="已下架" readonly>
+                                            @endif
                                         </div>
-                                        @endif
                                     </td>
                                     <td>
                                         <div class="input-group">
@@ -247,12 +252,13 @@
     });
     function quickEdit(type,id,field = null,origin_value = null){
         if(type == 'update'){
+            if(field == 'selling'){
+                $("#quickEditForm").attr('action','{{url('/productlists/edit')}}/'+id);
+            }else if(field == 'checked'){
+                $("#quickEditForm").attr('action','{{url('/products/edit')}}/'+id);  
+            }
             $("input[name='_method']").val('patch');
-            $("#quickEditForm").attr('action','{{url('/products/edit')}}/'+id);
-            var value;
-            value = origin_value == 1? 0:1;
-            $("#quickEditForm").append('<input type="hidden" name="'+field+'" value="'+value.toString()+'">');
-            $("#quickEditForm").append('<input type="hidden" name="quick" value="1">');
+            $("#quickEditForm").append('<input type="hidden" name="'+field+'" value="'+origin_value.toString()+'">');
         }else if(type == 'delete'){
             $("input[name='_method']").val('delete');
             $("#quickEditForm").attr('action','{{url('/products/delete')}}/'+id);
@@ -261,6 +267,7 @@
                 return;
             }
         }
+        $("#quickEditForm").append('<input type="hidden" name="quick" value="1">');
         $("#quickEditForm").submit();
     }
 </script>

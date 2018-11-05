@@ -39,8 +39,8 @@
     </div>
     <div class="card-body">
         <div class="list-group">
-            <a href="{{url('/member/'.$tb_Member->id.'/shop/'.$tb_Shop->id.'/edit')}}" class="list-group-item bg-success text-light"><i class="fa fa-pencil mr-1"></i>編輯商家資料</a>
-            <a href="{{url('/member/'.$tb_Member->id.'/shop/'.$tb_Shop->id.'/productlist/edit')}}" class="list-group-item bg-dark"><i class="fa fa-cubes mr-1"></i>調整架上商品</a>
+            <a href="{{url('/member/'.$tb_Member->id.'/shop/'.$tb_Shop->id.'/edit')}}" class="list-group-item text-light bg-success"><i class="fa fa-pencil mr-1"></i>編輯商家資料</a>
+            <a href="{{url('/member/'.$tb_Member->id.'/shop/'.$tb_Shop->id.'/productlist/edit')}}" class="list-group-item bg-dark text-success"><i class="fa fa-cubes mr-1"></i>調整架上商品</a>
         </div>
     </div>
 </div>
@@ -147,54 +147,7 @@
                 </div>
             </div>
         </div>
-        <div class="card">
-            <div class="card-header border-bottom border-light">
-                <h4 class="card-title text-center">已上架商品列表</h4>
-            </div>
-            <div class="card-body">
-                @if($tb_Shop->premission == 1)
-                <a href="{{url('/member/'.Auth::user()->id.'/shop/'.$tb_Shop->id.'/productlist/edit')}}" class="btn btn-outline-success"><i class="fa fa-tag mr-1"></i>商品調整</a>
-                @else
-                <span class="badge badge-danger"><i class="fa fa-warning mr-1"></i>商店資格審核中,還不能上架商品</span>
-                @endif
-                <table class="table mt-4">
-                    <tr>
-                        <th>商品編號</th>
-                        <th>名稱</th>
-                        <th>代表圖片</th>
-                        <th>實際售價</th>
-                        <th>編輯</th>
-                    </tr>
-                    @if(count($tb_Shop->Product_lists)<=0)
-                    <tr>
-                        <td>尚未上架任何商品</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    @else
-                        @foreach($tb_ProductLists as $list)
-                        <tr>
-                            <td>{{$list->id}}</td>
-                            <td>{{$list->Products->name}}</td>
-                            <td>
-                                @if(count(json_decode($list->Products->pic))>0)
-                                <img src="{{url('webmgr/upload/products/shop_'.$tb_Shop->id.'/'.$list->products_id.'/'.json_decode($list->Products->pic)[0])}}" alt="{{$list->Products->name}}" height="80">
-                                @else
-                                <img src="{{url('webmgr/upload/products/default_product.jpg')}}" alt="No Img">
-                                @endif
-                            </td>
-                            <td>{{$list->sale_price}}</td>
-                            <td>
-                                <a href="{{url('/member/'.Auth::user()->id.'/shop/'.$tb_Shop->id.'/product/'.$list->products_id.'/edit')}}" class="btn btn-sm btn-outline-success"><i class="fa fa-pencil-square-o"></i></a>
-                            </td>
-                        </tr>
-                        @endforeach
-                    @endif
-                </table>
-            </div>
-        </div>
+        
 @endsection
 @section('js')
 <script>

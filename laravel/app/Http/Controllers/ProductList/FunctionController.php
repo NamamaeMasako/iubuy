@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\ProductList;
+namespace App\Http\Controllers\Productlist;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Members;
 use App\Products;
-use App\Product_lists;
+use App\Productlists;
 use App\Shops;
 use Validator;
 
@@ -30,28 +30,26 @@ class FunctionController extends Controller
                 'sale_price' => 'required',
             ],
             [
-                'sale_price.required' => '售價 - 必填',
+                'sale_price.required' => '實際售價 - 必填',
             ]
         );
         if($validator->fails()){
 
             return back()->withErrors($validator)->withInput();
         }
-        if(in_array("", $request->sale_price)){
-            return back()->withErrors(['售價 - 必填'])->withInput();
-        }
-        foreach ($request->product as $idx => $product) {
-            $upd_tb_Products = Products::find($product);
-            $upd_tb_Products->onshelf = 1;
-            $upd_tb_Products->save();
-            $ProductLists_id = time();
-            $new_tb_ProductLists = new Product_lists;
-            $new_tb_ProductLists->id = $ProductLists_id;
-            $new_tb_ProductLists->products_id = $product;
-            $new_tb_ProductLists->shops_id = $shop_id;
-            $new_tb_ProductLists->sale_price = $request->sale_price[$idx];
-            $new_tb_ProductLists->onshelf = 1;
-            $new_tb_ProductLists->save();
+        $upd_tb_Productlists = Productlists::where('sale_price',$request->sale_price)->first();
+        if(!empty($upd_tb_Productlists)){
+            $upd_tb_Productlists->selling = 1;
+            $upd_tb_Productlists->save();
+        }else{
+            $Productlists_id = time();
+            $new_tb_Productlists = new Productlists;
+            $new_tb_Productlists->id = $Productlists_id;
+            $new_tb_Productlists->products_id = $request->product;
+            $new_tb_Productlists->shops_id = $shop_id;
+            $new_tb_Productlists->sale_price = $request->sale_price;
+            $new_tb_Productlists->selling = 1;
+            $new_tb_Productlists->save();
         }
 
         return redirect('/member/'.$member_id.'/shop/'.$shop_id.'/productlist/edit');

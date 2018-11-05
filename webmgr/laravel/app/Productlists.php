@@ -11,6 +11,15 @@ class Productlists extends Model
 
     //---------------------------------------------------------------------------------
 
+    protected static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope(new \App\Scopes\Productlists);
+    }
+
+    //---------------------------------------------------------------------------------
+
+
     public function Products()
     {
         return $this->belongsTo('App\Products','products_id');

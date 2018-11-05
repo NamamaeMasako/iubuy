@@ -81,4 +81,10 @@ Route::group(['middleware' => ['auth']], function () {
 		Route::get('/search', 'Products\FunctionController@search');
 		Route::get('/clearsearch', 'Products\FunctionController@clearsearch');
 	});
+	//架上管理
+	Route::group(['prefix' => 'productlists'], function () {
+		//功能
+		// 。Route::post('/create', 'Productlists\FunctionController@create'); //新增上架紀錄(暫時不用)
+		Route::patch('/edit/{id}', 'Productlists\FunctionController@update');
+	});
 });

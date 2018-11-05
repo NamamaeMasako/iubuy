@@ -64,7 +64,7 @@
     <!-- Bootstrap 4 -->
     <script src="{{url('plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
     <!-- Select2 -->
-    <script src="../../plugins/select2/select2.full.min.js"></script>
+    <script src="{{url('plugins/select2/select2.full.min.js')}}"></script>
     <!-- InputMask -->
     <script src="{{url('plugins/input-mask/jquery.inputmask.js')}}"></script>
     <script src="{{url('plugins/input-mask/jquery.inputmask.date.extensions.js')}}"></script>

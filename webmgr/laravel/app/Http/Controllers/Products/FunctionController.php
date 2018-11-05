@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Products;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Products;
+use App\Productlists;
 use App\Shops;
 use Cookie;
 use Session;
@@ -151,7 +152,7 @@ class FunctionController extends Controller
                         $str = "變更";
                         break;
                     case 'checked':
-                        $item = "可否販賣";
+                        $item = "審查狀態";
                         $str = "變更";
                         break;
                     case 'info_name':
@@ -163,7 +164,7 @@ class FunctionController extends Controller
                         $str = "重設";
                         break;
                 }
-                array_push($msg, "店家編號 ".$upd_tb_Products->id." 的".$item."已".$str);
+                array_push($msg, "商品編號 ".$upd_tb_Products->id." 的".$item."已".$str);
             }
             $this->msg2session('success',$msg);
             if(isset($request->quick)){

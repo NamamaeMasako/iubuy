@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\ProductList;
+namespace App\Http\Controllers\Productlist;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Members;
 use App\Products;
-use App\Product_lists;
+use App\Productlists;
 use App\Shops;
 
 class PageController extends Controller
@@ -21,13 +21,13 @@ class PageController extends Controller
     {
         $tb_Member = Members::find($member_id);
         $tb_Shop = Shops::find($shop_id);
-        $tb_Product = Products::where('shops_id', $shop_id)->where('onshelf',0)->orderby('created_at')->get();
-        $tb_ProductList = Product_lists::where('shops_id', $shop_id)->where('onshelf',1)->orderby('created_at')->get();
+        $tb_Products = Products::where('shops_id', $shop_id)->orderby('created_at')->get();
+        $tb_Productlists = Productlists::where('shops_id', $shop_id)->where('selling',1)->orderby('created_at')->get();
         return view('productlist.edit',[
             'tb_Member' => $tb_Member,
             'tb_Shop' => $tb_Shop,
-            'tb_Product' => $tb_Product,
-            'tb_ProductList' => $tb_ProductList
+            'tb_Products' => $tb_Products,
+            'tb_Productlists' => $tb_Productlists
         ]);
     }
 

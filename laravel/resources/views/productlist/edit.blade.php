@@ -46,127 +46,140 @@
 </div>
 @endsection
 @section('nine')
-        <div class="card">
-            <div class="card-header border-bottom border-light">
-                <h4 class="card-title text-center mt-1">
-                    {{$tb_Shop->name}}的商品
-                </h4>
+<div class="card">
+    <div class="card-header border-bottom border-light">
+        <h4 class="card-title text-center">已上架商品列表</h4>
+    </div>
+    <div class="card-body">
+        <table class="table mt-4">
+            <tr>
+                <th>商品編號</th>
+                <th>名稱</th>
+                <th>代表圖片</th>
+                <th>實際售價</th>
+                <th>下架</th>
+            </tr>
+            @if(count($tb_Productlists)<=0)
+            <tr>
+                <td>尚未上架任何商品</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            @else
+                @foreach($tb_Productlists as $list)
+                <tr>
+                    <td>{{$list->id}}</td>
+                    <td>{{$list->Products->name}}</td>
+                    <td>
+                        @if(count(json_decode($list->Products->pic))>0)
+                        <img src="{{url('webmgr/upload/products/shop_'.$tb_Shop->id.'/'.$list->products_id.'/'.json_decode($list->Products->pic)[0])}}" alt="{{$list->Products->name}}" height="80">
+                        @else
+                        <img src="{{url('webmgr/upload/products/default_product.jpg')}}" alt="No Img">
+                        @endif
+                    </td>
+                    <td>{{$list->sale_price}}元</td>
+                    <td>
+                        <button class="btn btn-secondary"><i class="fa fa-level-down"></i></button>
+                    </td>
+                </tr>
+                @endforeach
+            @endif
+        </table>
+    </div>
+</div>
+<div class="card">
+    <div class="card-header border-bottom border-light">
+        <h4 class="card-title text-center">商品列表</h4>
+    </div>
+    <div class="card-body">
+        <table class="table mt-4">
+            <tr>
+                <th>商品編號</th>
+                <th>名稱</th>
+                <th>代表圖片</th>
+                <th>建議售價</th>
+                <th>編輯</th>
+                <th>上架</th>
+            </tr>
+            @if(count($tb_Products)<=0)
+            <tr>
+                <td>尚未新增任何商品</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            @else
+                @foreach($tb_Products as $product)
+                <tr>
+                    <td>{{$product->id}}</td>
+                    <td>{{$product->name}}</td>
+                    <td>
+                        @if(count(json_decode($product->pic))>0)
+                        <img src="{{url('webmgr/upload/products/shop_'.$tb_Shop->id.'/'.$product->id.'/'.json_decode($product->pic)[0])}}" alt="{{$product->name}}" height="80">
+                        @else
+                        <img src="{{url('webmgr/upload/products/default_product.jpg')}}" alt="No Img">
+                        @endif
+                    </td>
+                    <td>{{$product->original_price}}元</td>
+                    <td>
+                        <a href="{{url('/member/'.Auth::user()->id.'/shop/'.$tb_Shop->id.'/product/'.$product->id.'/edit')}}" class="btn btn-outline-success"><i class="fa fa-pencil-square-o"></i></a>
+                    </td>
+                    <td>
+                        @if(count($product->Productlists->where('selling',1))>0)
+                        已上架
+                        @else
+                        <button class="btn btn-outline-secondary" data-toggle="modal" data-target="#product-{{$product->id}}"><i class="fa fa-level-up"></i></button>
+                        @endif
+                    </td>
+                </tr>
+                @endforeach
+            @endif
+        </table>
+    </div>
+</div>
+@foreach($tb_Products as $product)
+<div class="modal fade" id="product-{{$product->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">上架設定</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-            <div class="card-body d-flex justify-content-center">
-                <div class="col-12 d-md-flex justify-content-center">
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-header border-bottom border-light">
-                                <h4 class="card-title text-center mt-1">已上架</h4>
-                            </div>
-                            <div class="card-body">
-                                <div class="col-12 d-flex justify-content-center">
-                                    <div class="col-3">商品</div>
-                                    <div class="col-3">原價</div>
-                                    <div class="col-3">售價</div>
-                                    <div class="col-3">下架</div>
-                                </div>
-                                <div class="col-12 border border-light rounded p-2">
-                                    @if(count($tb_ProductList)<=0)
-                                    尚未上架任何商品
-                                    @else
-                                        @foreach($tb_ProductList as $idx => $list)
-                                        <div class="col-12 d-flex justify-content-center p-0 mb-2">
-                                            <a href="{{url('/member/'.Auth::user()->id.'/shop/'.$tb_Shop->id.'/product/'.$list->products_id.'/edit')}}" class="col-3 btn btn-block btn-sm btn-dark">{{$list->Products->name}}</a>
-                                            <div class="col-3">{{$list->Products->original_price}}</div>
-                                            <div class="col-3">{{$list->sale_price}}</div>
-                                            <div class="col-3">
-                                                <form action="{{url('/member/'.Auth::user()->id.'/shop/'.$tb_Shop->id.'/productlist/'.$list->id.'/update')}}" method="post">
-                                                    {{csrf_field()}}
-                                                    {{method_field('patch')}}
-                                                    <input type="text" name="product" value="{{$list->products_id}}" class="d-none">
-                                                    <button class="btn btn-sm btn-dark"><i class="fa fa-level-down"></i></button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                        @endforeach
-                                    @endif
-                                </div>
-                            </div>
+            <form action="{{url('/member/'.Auth::user()->id.'/shop/'.$tb_Shop->id.'/productlist/create')}}" method="post">
+                {{csrf_field()}}
+                {{method_field('patch')}}
+                <input type="text" name="product" class="d-none" value="{{$product->id}}">
+                <div class="modal-body">
+                    <div class="row form-group">
+                        <label class="col-sm-3 col-form-label">商品名稱</label>
+                        <div class="input-group col-sm-6">
+                            <p class="form-control text-light bg-dark">{{$product->name}}</p>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-header border-bottom border-light">
-                                <h4 class="card-title text-center mt-1">未上架</h4>
+                    <div class="row">
+                        <label for="sale_price" class="col-sm-3 col-form-label">實際售價</label>
+                        <div class="input-group col-sm-6">
+                            <input type="number" name="sale_price" min="0" class="form-control text-light bg-dark" value="{{$product->original_price}}">
+                            <div class="input-group-append">
+                                <span class="input-group-text bg-dark text-light">元</span>
                             </div>
-                            <form action="{{url('/member/'.Auth::user()->id.'/shop/'.$tb_Shop->id.'/productlist/create')}}" method="post">
-                                {{csrf_field()}}
-                                {{method_field('patch')}}
-                                <div class="card-body">
-                                    <div class="col-12 d-flex justify-content-center">
-                                        <div class="col-3">商品</div>
-                                        <div class="col-3">原價</div>
-                                        <div class="col-3">售價</div>
-                                        <div class="col-3">選取</div>
-                                    </div>
-                                    <div class="col-12 border border-light rounded p-2">
-                                    @if(count($tb_Product)<=0)
-                                    沒有商品可以上架
-                                    @else
-                                        @foreach($tb_Product as $idx => $product)
-                                        <div class="col-12 d-flex justify-content-center p-0 mb-2">
-                                            <a href="{{url('/member/'.Auth::user()->id.'/shop/'.$tb_Shop->id.'/product/'.$product->id.'/edit')}}" class="col-3 btn btn-block btn-sm btn-dark">{{$product->name}}</a>
-                                            @if($product->checked == 0)
-                                            <div class="col-3" id="o-price_{{$idx}}">{{$product->original_price}}</div>
-                                            <div class="col-3">
-                                                <div class="input-group d-none" id="priceEnter_{{$idx}}">
-                                                    <input type="number" id="price_{{$idx}}" name="sale_price[]" class="form-control form-control-sm bg-dark text-light" placeholder="輸入售價" disabled>
-                                                    <div class="input-group-append">
-                                                        <span class="btn btn-sm btn-outline-warning ml-1" onclick="auto_input($('#o-price_{{$idx}}').text(),'price_{{$idx}}');">同原價</span>
-                                                    </div>
-                                                </div>
-                                                <div class="input-group" id="priceDisabled_{{$idx}}"></div>
-                                            </div>
-                                            <div class="col-3">
-                                                <label for="product_{{$idx}}" class="btn btn-sm btn-dark m-0" onclick="picProduct.call(this,'{{$idx}}');">
-                                                    <i class="fa fa-square-o"></i>
-                                                </label>
-                                                <input type="checkbox" id="product_{{$idx}}" class="d-none">
-                                                <input type="text" class="d-none" id="pid_{{$idx}}"  name="product[]" value="{{$product->id}}" disabled>
-                                            </div>
-                                            @else
-                                            <div class="col-9 d-flex justify-content-center align-items-center">
-                                                <span class="badge badge-danger"><i class="fa fa-frown-o mr-1"></i>此商品已被系統屏蔽</span>
-                                            </div>
-                                            @endif
-                                        </div>
-                                        @endforeach
-                                    @endif
-                                    </div>                  
-                                </div>
-                                <div class="card-footer d-flex justify-content-between text-right">
-                                    @if (count($errors) > 0)
-                                    <div class="alert alert-dark">
-                                        <ul class="mb-0">
-                                            @foreach ($errors->all() as $error)
-                                                <li>{{ $error }}</li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                    @endif   
-                                    <div class="col-6 p-0">
-                                        <a href="{{url('/member/'.Auth::user()->id.'/shop/'.$tb_Shop->id.'/product/create')}}" class="btn  btn-outline-success pull-left">
-                                            <i class="fa fa-plus mr-1"></i>新增商品
-                                        </a> 
-                                    </div>
-                                    <div class="col-6 ">
-                                        <button type="submit" class="btn btn-success"><i class="fa fa-cubes mr-1"></i>上架</button>
-                                    </div>
-                                </div>
-                            </form>
                         </div>
                     </div>
                 </div>
-            </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">上架</button>
+                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">關閉</button>
+                </div>
+            </form>
         </div>
-
-
+     </div>
+</div>
+@endforeach
 @endsection
 @section('js')
 <script>

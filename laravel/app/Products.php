@@ -13,7 +13,7 @@ class Products extends Model
 
     public function ProductLists()
     {
-        return $this->hasMany('App\Product_lists','products_id');
+        return $this->hasMany('App\Productlists','products_id');
     }
 
 }
