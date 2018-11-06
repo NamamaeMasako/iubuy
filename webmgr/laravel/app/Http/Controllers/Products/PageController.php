@@ -32,19 +32,22 @@ class PageController extends Controller
             if(isset($arr_search['checked'])){
                 $tb_Products = $tb_Products->where('checked',$arr_search['checked']);
             }
-            if(isset($arr_search['onshelf'])){
-                $tb_Products = $tb_Products->where('onshelf',$arr_search['onshelf']);
+            if(isset($arr_search['selling'])){
+                $tb_Productlists = Productlists::where('selling',1);
+                if($arr_search['selling'] == 1){
+                    $tb_Products = $tb_Products->whereIn('id',$tb_Productlists->pluck('products_id'));
+                }else{
+                    $tb_Products = $tb_Products->whereNotIn('id',$tb_Productlists->pluck('products_id'));
+                }
             }
             if(isset($arr_search['price'])){
                 $tb_Products = $tb_Products->whereBetween('original_price',$arr_search['price']);
             }
         }
-        $tb_Productlists = Productlists::where('selling',1);
         $tb_Products = $tb_Products->paginate(10);
 
     	return view('products.index',[
             "arr_search" => $arr_search,
-            "tb_Productlists" => $tb_Productlists,
             "tb_Products" => $tb_Products
         ]);
     }
@@ -54,12 +57,14 @@ class PageController extends Controller
     	return view('Products.create');
     }
 
-    public function edit($shop_id)
+    public function edit($product_id)
     {
-        $tb_Products = Products::find($shop_id);
+        $tb_Products = Products::find($product_id);
+        $tb_Productlists = Productlists::where('products_id',$product_id)->where('selling',1)->get();
 
         return view('Products.edit',[
-            'tb_Products' => $tb_Products
+            'tb_Products' => $tb_Products,
+            'tb_Productlists' => $tb_Productlists
         ]);
     }
 

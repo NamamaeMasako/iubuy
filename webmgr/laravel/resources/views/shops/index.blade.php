@@ -212,7 +212,7 @@
                                 商品名稱
                             </th>
                             <th>
-                                架上狀態
+                                建議售價
                             </th>
                             <th>
                                 編輯
@@ -228,17 +228,12 @@
                                     {{$product->name}}
                                     @if($product->checked == 0)
                                     <span class="badge badge-danger">{{$product->text_checked}}</span>
+                                    @elseif($product->checked == 2)
+                                    <span class="badge badge-success">{{$product->text_checked}}</span>
                                     @endif
                                 </td>
                                 <td>
-                                    <span class="font-weight-bold
-                                        @if($product->onshelf == 0) 
-                                        text-danger 
-                                        @elseif($product->onshelf == 1) 
-                                        text-success
-                                        @endif">
-                                        {{$product->text_onshelf}}
-                                    </span>
+                                    {{$product->original_price}} 元
                                 </td>
                                 <td>
                                     <a href="{{url('/products/edit/'.$product->id)}}" class="btn btn-success"><i class="fa fa-edit"></i></a>

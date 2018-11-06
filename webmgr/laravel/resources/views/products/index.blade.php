@@ -58,12 +58,12 @@
                             </div>
                         </div>
                         <div class="row form-group">
-                            <label for="onshelf" class="col-sm-1">架上狀態</label>
+                            <label for="selling" class="col-sm-1">架上狀態</label>
                             <div class="col-sm-2">
-                                <select name="onshelf" class="form-control" id="onshelf">
-                                    <option value="" @if(!isset($arr_search['onshelf'])) selected @endif>--請選擇--</option>
-                                    <option value="1" @if(isset($arr_search['onshelf'])) @if($arr_search['onshelf'] == 1) selected @endif @endif>上架中</option>
-                                    <option value="0" @if(isset($arr_search['onshelf'])) @if($arr_search['onshelf'] == 0) selected @endif @endif>已下架</option>
+                                <select name="selling" class="form-control" id="selling">
+                                    <option value="" @if(!isset($arr_search['selling'])) selected @endif>--請選擇--</option>
+                                    <option value="1" @if(isset($arr_search['selling'])) @if($arr_search['selling'] == 1) selected @endif @endif>上架中</option>
+                                    <option value="0" @if(isset($arr_search['selling'])) @if($arr_search['selling'] == 0) selected @endif @endif>已下架</option>
                                 </select>
                             </div>
                             <label for="checked" class="col-sm-1">審查狀態</label>
@@ -102,8 +102,9 @@
                                 <th>建議售價</th>
                                 <th>上傳商家</th>
                                 <th>建立時間</th>
-                                <th>架上狀態</th>
+                                <th>架上狀態/實際售價</th>
                                 <th>審查狀態</th>
+                                <th>歷史價格</th>
                                 <th>編輯</th>
                                 @if(Auth::user()->admin == 0)
                                 <th>刪除</th>
@@ -136,17 +137,22 @@
                                                     <i class="fa fa-smile-o"></i>
                                                 </span>
                                             </div>
-                                            <select class="form-control text-success" onchange="quickEdit('update',{{$row->Productlists[0]->id}},'selling',this.value)">
+                                            <select id="selling-{{$row->Productlists[0]->id}}" class="form-control text-success" onchange="quickEdit('update',{{$row->Productlists[0]->id}},'selling',this.value)">
                                                 <option value="1" class="text-success" selected>上架中</option>
                                                 <option value="0" class="text-danger">已下架</option>
                                             </select>
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text text-success">
+                                                    {{$row->Productlists[0]->sale_price}} 元
+                                                </span>
+                                            </div>
                                             @else
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text bg-danger">
                                                     <i class="fa fa-frown-o"></i>
                                                 </span>
                                             </div>
-                                            <input type="text" class="form-control text-danger" value="已下架" readonly>
+                                            <span class="form-control text-danger">已下架</span>
                                             @endif
                                         </div>
                                     </td>
@@ -179,6 +185,11 @@
                                                 <option value="0" class="text-danger" @if($row->checked == 0) selected @endif>禁賣</option>
                                             </select>
                                         </div>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-info" data-toggle="modal" data-target="#productList-{{$row->id}}">
+                                            <i class="fa fa-file-text"></i>
+                                        </button>
                                     </td>
                                     <td>
                                         <a href="{{ url('/products/edit/'.$row->id) }}" class="btn btn-success">
@@ -254,6 +265,11 @@
         if(type == 'update'){
             if(field == 'selling'){
                 $("#quickEditForm").attr('action','{{url('/productlists/edit')}}/'+id);
+                var confirm_value = confirm("確認下架商品?");
+                if(confirm_value == false){
+                    $('#selling-'+id).val('1');
+                    return;
+                }
             }else if(field == 'checked'){
                 $("#quickEditForm").attr('action','{{url('/products/edit')}}/'+id);  
             }

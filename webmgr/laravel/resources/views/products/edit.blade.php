@@ -54,8 +54,8 @@
                                 <label for="onshelf" class="col-sm-2">架上狀態</label>
                                 <div class="col-sm-6">
                                     <select id="onshelf" name="onshelf" class="form-control">
-                                        <option value="1" @if($tb_Products->onshelf == 1) selected @endif>上架中</option>
-                                        <option value="0" @if($tb_Products->onshelf == 0) selected @endif>已下架</option>
+                                        <option value="1" @if(count($tb_Productlists)>0) selected @endif>上架中</option>
+                                        <option value="0" @if(count($tb_Productlists)<=0) selected @endif>已下架</option>
                                     </select>
                                 </div>
                             </div>
