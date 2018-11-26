@@ -39,7 +39,6 @@
                             @if(count(App\User::all()) <= 0)
                                 <a href="{{url('/register')}}" class="btn btn-success">註冊</a>
                             @endif
-                            <a href="{{url('/register')}}" class="btn btn-success">註冊</a>
                             <button type="submit" class="btn btn-primary">
                                 <i class="fa fa-sign-in mr-2"></i>登入
                             </button>

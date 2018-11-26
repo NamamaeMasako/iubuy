@@ -10,7 +10,7 @@
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <a href="{{url('/users/edit/'.Auth::user()->id)}}" class="d-flex">
                 <div class="image">
-                    <img src="{{url('upload/users/'.Auth::user()->avator)}}" class="img-circle elevation-2" alt="User Image">
+                    <img src="{{url('upload/users/'.Auth::user()->avator)}}" class="img-circle elevation-2" alt="User Image" onerror="javascript:this.src='{{url('img/default_avator.jpg')}}'">
                 </div>
                 <div class="info">
                     <span class="d-block">{{Auth::user()->name}}</span>

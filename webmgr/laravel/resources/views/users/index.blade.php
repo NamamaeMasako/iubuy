@@ -100,7 +100,7 @@
                                         {{ $row->name }}
                                     </td>
                                     <td>
-                                        <img src="{{url('upload/users/'.$row->avator)}}" class="img-circle elevation-2" alt="User Image" width="50" height="50">
+                                        <img src="{{url('upload/users/'.$row->avator)}}" class="img-circle elevation-2" alt="User Image" width="50" height="50" onerror="javascript:this.src='{{url('img/default_avator.jpg')}}'">
                                     </td>
                                     <td>
                                         {{ $row->text_admin }}

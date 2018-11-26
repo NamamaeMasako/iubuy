@@ -76,10 +76,6 @@ class RegisterController extends Controller
         $new_tb_User->email = $request->email;
         $new_tb_User->password = bcrypt($request->password);
         $new_tb_User->admin = 0;
-        $imgName = $user_id.'.jpg';
-        \File::makeDirectory($this->users_img_dir,0775,true,true);
-        \Image::make($this->users_img_dir.'default_user.jpg')->save($this->users_img_dir.$imgName);
-        $new_tb_User->avator = $imgName;
         $new_tb_User->save();
 
         return redirect('/');
