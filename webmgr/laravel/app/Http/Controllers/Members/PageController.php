@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Members;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Members;
+use App\MemberProfiles;
 use Cookie;
 
 class PageController extends Controller
@@ -56,12 +57,14 @@ class PageController extends Controller
     	return view('members.create');
     }
 
-    public function edit($user_id)
+    public function edit($account)
     {
-        $tb_Members = Members::find($user_id);
+        $tb_Member = Members::where('account',$account)->first();
+        $tb_MemberProfile  = MemberProfiles::where('members_account',$account)->first();
 
         return view('members.edit',[
-            'tb_Members' => $tb_Members
+            'tb_Member' => $tb_Member,
+            'tb_MemberProfile' => $tb_MemberProfile
         ]);
     }
 

@@ -24,15 +24,15 @@ Route::get('/index', 'IndexController@index');
 
 Route::group(['middleware' => ['auth']], function () {
 	Route::group(['prefix' => 'member'], function () {
-		Route::get('/{member_id}','Member\PageController@index');
-		Route::group(['prefix' => '{member_id}'], function () {
+		Route::group(['prefix' => '{member_account}'], function () {
+			Route::get('/','Member\PageController@index');
 			Route::get('/edit','Member\PageController@edit');
 			Route::patch('/edit','Member\FunctionController@update');
 			Route::group(['prefix' => 'shop'], function () {
 				Route::get('/list','Shop\PageController@list');
 				Route::get('/create','Shop\PageController@create');
 				Route::post('/create','Shop\FunctionController@create');
-				Route::group(['prefix' => '{shop_id}'], function () {
+				Route::group(['prefix' => '{shop_name}'], function () {
 					Route::get('/edit','Shop\PageController@edit');
 					Route::patch('/edit','Shop\FunctionController@update');
 					Route::group(['prefix' => 'productlist'], function () {

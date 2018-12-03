@@ -24,7 +24,7 @@
             {{Auth::user()->name}}
           </a>
           <ul>
-            <li><a href="{{url('/member/'.\Auth::user()->id)}}">個人資料</a></li>
+            <li><a href="{{url('/member/'.\Auth::user()->account)}}">個人資料</a></li>
             <li><a href="{{url('/logout')}}">登出</a></li>
           </ul>
         </li>

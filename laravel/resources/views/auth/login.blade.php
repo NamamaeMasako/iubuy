@@ -15,9 +15,9 @@
                 <div class="card-body d-flex justify-content-center">
                     <div class="col-sm-8 pt-2">
                         <div class="form-group row">
-                            <label class="col-md-3 col-form-label" for="email">帳號(email)</label>
+                            <label class="col-md-3 col-form-label" for="account">帳號</label>
                             <div class="col-md-8">
-                                <input type="email" class="form-control bg-dark text-light" name="email" value="{{ old('email') }}">
+                                <input type="text" class="form-control bg-dark text-light" name="account" value="{{ old('account') }}">
                             </div>
                         </div>
                         <div class="form-group row">

@@ -21,7 +21,7 @@ class Shops extends Model
 
     public function Members()
     {
-        return $this->belongsTo('App\Members','members_id');
+        return $this->belongsTo('App\Members','members_account');
     }
 
     public function Products()

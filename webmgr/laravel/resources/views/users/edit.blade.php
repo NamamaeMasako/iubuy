@@ -4,12 +4,18 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0 text-dark"><i class="nav-icon fa fa-id-card-o mr-1"></i>管理中心<small><i class="fa fa-chevron-right m-1"></i>編輯管理員</small></h1>
+                <h1 class="m-0 text-dark">
+                    <i class="nav-icon fa fa-id-card-o mr-1"></i>管理中心
+                    <small>
+                        <i class="fa fa-chevron-right m-1"></i>管理員列表
+                        <i class="fa fa-chevron-right m-1"></i>編輯管理員
+                    </small>
+                </h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="{{url('/')}}">總覽</a></li>
-                    <li class="breadcrumb-item"><a href="{{url('/users')}}">管理中心</a></li>
+                    <li class="breadcrumb-item">管理中心</li>
+                    <li class="breadcrumb-item"><a href="{{url('/users')}}">管理員列表</a></li>
                     <li class="breadcrumb-item active">編輯管理員</li>
                 </ol>
             </div>
@@ -106,7 +112,7 @@
                                                 <h4 class="card-title"><small>目前頭像</small></h4>
                                             </div>
                                             <div class="card-body text-center">
-                                                <img src="{{url('upload/users/'.$tb_Users->avator)}}" class="col-sm-12 img-circle elevation-2" alt="User Image">
+                                                <img src="{{url('upload/users/'.$tb_Users->avator)}}" class="col-sm-12 img-circle elevation-2" alt="User Image" onerror="javascript:this.src='{{url('img/default_avator.jpg')}}'">
                                             </div>
                                         </div>
                                     </div>
@@ -116,7 +122,7 @@
                     </div>
                     <div class="card-footer">
                         <a href="{{ url('/users') }}" class="btn btn-secondary">
-                            <i class="fa fa-reply mr-1"></i>返回會員列表
+                            <i class="fa fa-reply mr-1"></i>返回管理員列表
                         </a>
                         <button type="submit"  class="btn btn-primary">
                             更新

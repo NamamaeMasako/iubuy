@@ -21,11 +21,11 @@ class Employees extends Model
 
     public function Members()
     {
-        return $this->belongsTo('App\Members','id');
+        return $this->belongsTo('App\Members','members_account');
     }
 
     public function Shops()
     {
-        return $this->belongsTo('App\Shops','id');
+        return $this->belongsTo('App\Shops','shops_id');
     }
 }

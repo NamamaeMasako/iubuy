@@ -57,7 +57,7 @@ class LoginController extends Controller
         );
 
 
-        $data = $request->only('email', 'password');
+        $data = $request->only('account', 'password');
 
         if(Auth::attempt($data)){
             if(Auth::user()->premission == 0){

@@ -4,12 +4,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0 text-dark"><i class="nav-icon fa fa-id-card-o mr-1"></i>管理中心</h1>
+                <h1 class="m-0 text-dark"><i class="nav-icon fa fa-id-card-o mr-1"></i>管理中心<small><i class="fa fa-chevron-right m-1"></i>管理員列表</small></h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="{{url('/')}}">總覽</a></li>
-                    <li class="breadcrumb-item active">管理中心</li>
+                    <li class="breadcrumb-item">管理中心</li>
+                    <li class="breadcrumb-item active"><a href="{{url('/users')}}">管理員列表</a></li>
                 </ol>
             </div>
         </div>

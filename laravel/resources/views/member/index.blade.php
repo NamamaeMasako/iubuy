@@ -9,7 +9,7 @@
         </div>
         <div class="card-body text-center">
             <div class="col-sm-8 rounded-circle @if($tb_Member->admin != 0) bg-warning @endif mx-auto mb-3 p-1">
-                <img src="{{url('/webmgr/upload/members/'.$tb_Member->avator)}}" class="w-100 rounded-circle" alt="Member Img">
+                <img src="{{url('/webmgr/upload/members/'.$tb_Member->avator)}}" class="w-100 rounded-circle" alt="Member Img" onerror="javascript:this.src='{{url('/webmgr/img/default_avator.jpg')}}'">
             </div>
             @if($tb_Member->admin != 0)
             <div class="col-sm-12 h2">
@@ -25,7 +25,7 @@
         </div>
         <div class="card-footer text-right">
             @if(Auth::user()->id == $tb_Member->id)
-            <a href="{{url('/member/'.$tb_Member->id.'/edit')}}" class="btn btn-sm btn-outline-success pt-0 pb-0">編輯</a>
+            <a href="{{url('/member/'.$tb_Member->account.'/edit')}}" class="btn btn-sm btn-outline-success pt-0 pb-0">編輯</a>
             @endif
         </div>
     </div>
@@ -45,7 +45,7 @@
         </div>
         <div class="card-footer text-right">
             @if(Auth::user()->id == $tb_Member->id)
-            <a href="{{url('/member/'.$tb_Member->id.'/shop/list')}}" class="btn btn-sm btn-outline-success pt-0 pb-0">編輯</a>
+            <a href="{{url('/member/'.$tb_Member->account.'/shop/list')}}" class="btn btn-sm btn-outline-success pt-0 pb-0">編輯</a>
             @endif
         </div>
     </div>

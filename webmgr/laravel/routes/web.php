@@ -41,10 +41,10 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::group(['prefix' => 'members'], function () {
 		//頁面
 		Route::get('/', 'Members\PageController@index')->middleware('SignPost');
-		Route::get('/edit/{id}', 'Members\PageController@edit')->middleware('SignPost');
+		Route::get('/edit/{account}', 'Members\PageController@edit')->middleware('SignPost');
 		//功能
-		Route::patch('/edit/{id}', 'Members\FunctionController@update');
-		Route::delete('/delete/{id}', 'Members\FunctionController@delete')->middleware('IdentityCheck');
+		Route::patch('/edit/{account}', 'Members\FunctionController@update');
+		Route::delete('/delete/{account}', 'Members\FunctionController@delete')->middleware('IdentityCheck');
 		Route::get('/search', 'Members\FunctionController@search');
 		Route::get('/clearsearch', 'Members\FunctionController@clearsearch');
 	});
@@ -84,7 +84,7 @@ Route::group(['middleware' => ['auth']], function () {
 	//架上管理
 	Route::group(['prefix' => 'productlists'], function () {
 		//功能
-		// 。Route::post('/create', 'Productlists\FunctionController@create'); //新增上架紀錄(暫時不用)
+		// Route::post('/create', 'Productlists\FunctionController@create'); //新增上架紀錄(暫時不用)
 		Route::patch('/edit/{id}', 'Productlists\FunctionController@update');
 	});
 });

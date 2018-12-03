@@ -27,17 +27,19 @@
                         <p>總覽</p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="{{url('/users')}}" class="nav-link" id="users">
-                        <i class="nav-icon fa fa-id-card-o"></i>
-                        <p>管理中心</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{url('/members')}}" class="nav-link" id="members">
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
                         <i class="nav-icon fa fa-users"></i>
-                        <p>會員中心</p>
+                        <p>會員中心<i class="fa fa-angle-left right"></i></p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{url('/members')}}" class="nav-link" id="members">
+                                <i class="nav-icon fa fa-circle-o"></i>
+                                <p>會員列表</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link">
@@ -65,12 +67,24 @@
                         <p>商品中心</p>
                     </a>
                 </li>
+                <li class="nav-item has-treeview">
+                    <a href="" class="nav-link">
+                        <i class="nav-icon fa fa-id-card-o"></i>
+                        <p>管理中心<i class="fa fa-angle-left right"></i></p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{url('/users')}}" class="nav-link" id="users">
+                                <i class="nav-icon fa fa-circle-o"></i>
+                                <p>管理員列表</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
                 <li class="nav-item">
                     <a href="{{url('/logout')}}" class="nav-link">
                         <i class="nav-icon fa fa-sign-out"></i>
-                        <p>
-                            登出
-                        </p>
+                        <p>登出</p>
                     </a>
                 </li>
             </ul>

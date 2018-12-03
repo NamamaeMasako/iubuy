@@ -21,11 +21,16 @@ class Members extends Model
 
     public function Shops()
     {
-        return $this->hasMany('App\Shops','id');
+        return $this->hasMany('App\Shops','members_account');
     }
 
     public function Employees()
     {
-        return $this->hasMany('App\Employees','members_id');
+        return $this->hasMany('App\Employees','members_account');
+    }
+
+    public function MemberProfiles()
+    {
+        return $this->hasOne('App\MemberProfiles','members_account');
     }
 }

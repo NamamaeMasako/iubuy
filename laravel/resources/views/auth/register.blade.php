@@ -15,6 +15,12 @@
                 <div class="card-body d-flex justify-content-center">
                     <div class="col-sm-8">
                         <div class="form-group row">
+                            <label class="col-md-3 col-form-label" for="account">帳號</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control bg-dark text-light" name="account" placeholder="請輸入至少六碼英數字" value="{{ old('account') }}">
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label class="col-md-3 col-form-label" for="name">暱稱</label>
                             <div class="col-md-8">
                                 <input type="text" class="form-control bg-dark text-light" name="name" value="{{ old('name') }}">
@@ -25,18 +31,27 @@
                             <div class="col-md-8">
                                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                     <label class="btn btn-outline-secondary" onclick="radio_check.call(this);">
-                                        <input type="radio" name="gender" autocomplete="off" value="male" @if(old('gender') == 'male') checked @endif>先生
+                                        <input type="radio" name="gender" autocomplete="off" value="male" @if(old('gender') == 'male') checked @endif>男
                                     </label>
                                     <label class="btn btn-outline-secondary" onclick="radio_check.call(this);">
-                                        <input type="radio" name="gender" autocomplete="off" value="female" @if(old('gender') == 'female') checked @endif>小姐
+                                        <input type="radio" name="gender" autocomplete="off" value="female" @if(old('gender') == 'female') checked @endif>女
+                                    </label>
+                                    <label class="btn btn-outline-secondary" onclick="radio_check.call(this);">
+                                        <input type="radio" name="gender" autocomplete="off" value="other" @if(old('gender') == 'other') checked @endif>其他
                                     </label>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-md-3 col-form-label" for="email">帳號(email)</label>
+                            <label class="col-md-3 col-form-label" for="email">電子信箱</label>
                             <div class="col-md-8">
                                 <input type="email" class="form-control bg-dark text-light" name="email" value="{{ old('email') }}">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label" for="email">手機</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control bg-dark text-light" name="phone" value="{{ old('phone') }}">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -56,15 +71,12 @@
                                 <input type="checkbox" name="agreement"> 我同意提供個人資料
                             </label>
                         </div>
-                    </div>
-                    {{-- <div class="form-group">
-                        <label class="col-md-4 control-label"></label>
-
-                        <div class="col-md-6">
-                            {!! app('captcha')->display(); !!}
+                        <div class="row">
+                            <label class="col-md-8 offset-md-3 text-left">
+                                {!! app('captcha')->display(); !!}
+                            </label>
                         </div>
-
-                    </div> --}}
+                    </div>
                 </div>
                 @if (count($errors) > 0)
                 <div class="d-flex justify-content-center">

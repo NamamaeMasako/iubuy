@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Members;
+use App\MemberProfiles;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -41,36 +42,6 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:members',
-            'password' => 'required|min:6|confirmed',
-        ]);
-    }
-
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return User
-     */
-    protected function create(array $data)
-    {
-        return Members::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-        ]);
-    }
-
     public function register() {
         return view('auth.register');
     }
@@ -78,48 +49,53 @@ class RegisterController extends Controller
     public function handleRegister(Request $request) {
         $this->validate(
             $request, $rules = [
-                'name' => 'required|max:255',
+                'account' => 'required|min:6|max:50|unique:members',
+                'name' => 'required|max:50|unique:members',
                 'gender' => 'required',
                 'email' => 'required|email|max:255|unique:members',
+                'phone' => 'required|max:45|unique:members',
                 'password' => 'required|min:6|confirmed',
-                'agreement' => 'accepted'
+                'agreement' => 'accepted',
+                'g-recaptcha-response' => 'required|captcha'
             ],
             $messages = [
-                'name.required' => '使用者名稱 - 必填',
-                'name.max' => '使用者名稱 - 字數過多',
+                'account.required' => '帳號 - 必填',
+                'account.max' => '帳號 - 字數過多',
+                'account.min' => '帳號 - 至少六位英數字',
+                'account.unique' => '帳號 - 此暱稱已被使用',
+                'name.required' => '暱稱 - 必填',
+                'name.max' => '暱稱 - 字數過多',
+                'name.unique' => '暱稱 - 此暱稱已被使用',
                 'gender.required' => '性別 - 必填',
-                'email.required' => '帳號(Email) - 必填',
-                'email.email' => '帳號(Email) - 格式錯誤',
-                'email.max' => '帳號(Email) - 字數過多',
-                'email.unique' => '帳號(Email) - 此帳號已存在',
+                'email.required' => '電子信箱 - 必填',
+                'email.email' => '電子信箱 - 格式錯誤',
+                'email.max' => '電子信箱 - 字數過多',
+                'email.unique' => '電子信箱 - 此電子信箱已被使用',
+                'phone.required' => '手機 - 必填',
+                'phone.max' => '手機 - 字數過多',
+                'phone.unique' => '手機 - 此手機已被使用',
                 'password.required' => '密碼 - 必填',
                 'password.min' => '密碼 - 至少六位英數字',
                 'password.confirmed' => '再次確認密碼 - 確認失敗',
                 'agreement.accepted' => '請同意提供個人資料',
+                'g-recaptcha-response.required' => '請驗證"我不是機器人"',
+                'g-recaptcha-response.captcha' => '"我不是機器人"驗證失敗 - 重新驗證',
             ]
         );
-        $member_id = time();
         $new_tb_Member = new Members();
-        $new_tb_Member->id = $member_id;
+        $new_tb_Member->account = $request->account;
         $new_tb_Member->name = $request->name;
         $new_tb_Member->email = $request->email;
+        $new_tb_Member->phone = $request->phone;
         $new_tb_Member->password = bcrypt($request->password);
         $new_tb_Member->admin = 0;
         $new_tb_Member->premission = 1;
-        $info_arr = [
-            "name" => $request->name,
-            "gender" => $request->gender,
-            "email" => [$request->email],
-            "phone" => [""],
-            "address" => [""]
-        ];
-        $new_tb_Member->info = json_encode($info_arr);
-        $imgName = $member_id.'.jpg';
-        \File::makeDirectory($this->members_img_dir,0775,true,true);
-        \Image::make($this->members_img_dir.'default_member.jpg')->save($this->members_img_dir.$imgName);
-        $new_tb_Member->avator = $imgName;
         $new_tb_Member->save();
-
+        $new_tb_MemberProfiles = new MemberProfiles();
+        $new_tb_MemberProfiles->members_account = $new_tb_Member->account;
+        $new_tb_MemberProfiles->gender = $request->gender;
+        $new_tb_MemberProfiles->save();
+        
         return view('success');
     }
 }

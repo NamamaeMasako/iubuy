@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Members;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Members;
+use App\MemberProfiles;
 use App\Shops;
 use App\Products;
 use App\Employees;
@@ -97,14 +98,14 @@ class FunctionController extends Controller
         return redirect('/members');
     }
 
-    public function update(Request $request,$member_id)
+    public function update(Request $request,$account)
     {
-        $upd_tb_Members = Members::find($member_id);
+        $upd_tb_Members = Members::where('account',$account)->first();
+        $upd_tb_MemberProfiles = MemberProfiles::where('members_account',$account)->first();
         $change_count = array();
-        $info_arr = json_decode($upd_tb_Members->info);
         if(!empty($request->name)){
             $change_count['name'] = $upd_tb_Members->name;
-            $upd_tb_Members->name = 'Member_'.$upd_tb_Members->id;
+            $upd_tb_Members->name = $account;
         }
         if(!empty($request->password)){
             $change_count['password'] = $upd_tb_Members->password;
@@ -120,42 +121,50 @@ class FunctionController extends Controller
             $upd_tb_Members->premission = $request->premission;
         }
         if(!empty($request->avator)){
-            $imgName = $upd_tb_Members->id.'.jpg';
             \File::delete($this->members_img_dir . $upd_tb_Members->avator);
-            \File::makeDirectory($this->members_img_dir,0775,true,true);
-            \Image::make($this->members_img_dir.'default_member.jpg')->save($this->members_img_dir.$imgName);
-            $upd_tb_Members->avator = $imgName;
+            $upd_tb_Members->avator = null;
             $change_count['avator'] = $request->avator;
         }
-        if(!empty($request->info_name) && $request->info_name != $info_arr->name){
-            $info_arr->name = $request->name;
-            $change_count['info_name'] = $info_arr->name;
+        if(!empty($request->real_first_name) && $request->real_first_name != $upd_tb_MemberProfiles->real_first_name){
+            $upd_tb_MemberProfiles->real_first_name = $request->real_first_name;
+            $change_count['real_name'] = $upd_tb_MemberProfiles->real_last_name.' '.$upd_tb_MemberProfiles->real_first_name;
         }
-        if(!empty($request->gender) && $request->gender != $info_arr->gender){
-            $info_arr->gender = $request->gender;
-            $change_count['gender'] = $info_arr->gender;
+        if(!empty($request->real_last_name) && $request->real_last_name != $upd_tb_MemberProfiles->real_last_name){
+            $upd_tb_MemberProfiles->real_last_name = $request->real_last_name;
+            $change_count['real_name'] = $upd_tb_MemberProfiles->real_last_name.' '.$upd_tb_MemberProfiles->real_first_name;
         }
-        if(!empty($request->info_email) && $request->info_email != $info_arr->email){
-            $info_arr->name = $request->info_email;
-            $change_count['info_email'] = $info_arr->email;
+        if(!empty($request->gender) && $request->gender != $upd_tb_MemberProfiles->gender){
+            $upd_tb_MemberProfiles->gender = $request->gender;
+            $change_count['gender'] = $upd_tb_MemberProfiles->gender;
         }
-        if(!empty($request->phone) && $request->phone != $info_arr->phone){
-            $info_arr->phone = $request->phone;
-            $change_count['phone'] = $info_arr->phone;
+        if(!empty($request->spare_email)){
+            if(json_encode($request->spare_email) !=  $upd_tb_MemberProfiles->spare_email){
+                $upd_tb_MemberProfiles->spare_email = json_encode($request->spare_email);
+                $change_count['spare_email'] = $upd_tb_MemberProfiles->spare_email;
+            }
         }
-        if(!empty($request->address) && $request->address != $info_arr->address){
-            $info_arr->address = $request->address;
-            $change_count['address'] = $info_arr->address;
+        if(!empty($request->spare_phone)){
+            if(json_encode($request->spare_phone) !=  $upd_tb_MemberProfiles->spare_phone){
+                $upd_tb_MemberProfiles->spare_phone = json_encode($request->spare_phone);
+                $change_count['spare_phone'] = $upd_tb_MemberProfiles->spare_phone;
+            }
+        }
+        if(!empty($request->address)){
+            if(json_encode($request->address) !=  $upd_tb_MemberProfiles->address){
+                $upd_tb_MemberProfiles->address = json_encode($request->address);
+                $change_count['address'] = $upd_tb_MemberProfiles->address;
+            }
         }
         if(count($change_count) == 0){
-            $this->msg2session("warning",["會員編號 ".$upd_tb_Members->id." 並未更新任何資訊"]);
+            $this->msg2session("warning",["會員 ".$upd_tb_Members->account." 並未更新任何資訊"]);
+            if(isset($request->tab)){
+                Session::flash('tab',$request->tab);
+            }
 
             return back();
         }else{
-            if($info_arr != json_decode($upd_tb_Members->info)){
-                $upd_tb_Members->info = json_encode($info_arr);
-            }
             $upd_tb_Members->save();
+            $upd_tb_MemberProfiles->save();
             $msg = array();
             foreach ($change_count as $key => $value) {
                 $item = null;
@@ -185,36 +194,36 @@ class FunctionController extends Controller
                         $item = "頭像";
                         $str = "重設";
                         break;
-                    case 'info_name':
-                        $item = "收貨資訊(收件人)";
+                    case 'real_name':
+                        $item = "個人資訊(真實姓名)";
                         $str = "變更";
                         break;
                     case 'gender':
-                        $item = "收貨資訊(性別)";
+                        $item = "個人資訊(性別)";
                         $str = "變更";
                         break;
                     case 'info_email':
-                        $item = "收貨資訊(電子郵件)";
+                        $item = "個人資訊(備援電子郵件)";
                         $str = "變更";
                         break;
                     case 'phone':
-                        $item = "收貨資訊(聯絡電話)";
+                        $item = "個人資訊(備援電話)";
                         $str = "變更";
                         break;
                     case 'address':
-                        $item = "收貨資訊(收貨地址)";
+                        $item = "個人資訊(地址)";
                         $str = "變更";
                         break;
                 }
-                array_push($msg, "會員編號 ".$upd_tb_Members->id." 的".$item."已".$str);
+                array_push($msg, "會員 ".$upd_tb_Members->account." 的".$item."已".$str);
             }
             $this->msg2session('success',$msg);
             if(isset($request->quick)){
-
                 return redirect('/members');
+            }elseif(isset($request->tab)){
+                Session::flash('tab',$request->tab);
             }
-            
-            return redirect('/members/edit/'.$upd_tb_Members->id);
+            return redirect('/members/edit/'.$upd_tb_Members->account);
         }
     }
 

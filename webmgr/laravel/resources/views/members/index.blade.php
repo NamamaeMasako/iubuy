@@ -85,11 +85,11 @@
                     <div class="table-responsive">
                         <table class="table table-bordered table-hover">
                             <thead>
-                                <th>編號</th>
-                                <th>會員</th>
+                                <th>帳號</th>
+                                <th>暱稱</th>
                                 <th>頭像</th>
                                 <th>階級</th>
-                                <th>Email</th>
+                                <th>已綁定的<br>電子信箱/手機</th>
                                 <th>建立時間</th>
                                 <th>權限</th>
                                 <th>編輯</th>
@@ -101,13 +101,13 @@
                                 @foreach($tb_Members as $row)
                                 <tr>
                                     <td>
-                                        {{ $row->id }}
+                                        {{ $row->account }}
                                     </td>
                                     <td>
                                         {{ $row->name }}
                                     </td>
                                     <td>
-                                        <img src="{{url('upload/members/'.$row->avator)}}" class="img-circle elevation-2" alt="User Image" width="50" height="50">
+                                        <img src="{{url('upload/members/'.$row->avator)}}" class="img-circle elevation-2" alt="User Image" width="50" height="50" onerror="javascript:this.src='{{url('img/default_avator.jpg')}}'">
                                     </td>
                                     <td>
                                         <span class="font-weight-bold">
@@ -115,7 +115,8 @@
                                         </span>
                                     </td>
                                     <td>
-                                        {{ $row->email}}
+                                        {{ $row->email}}<br>
+                                        {{ $row->phone}}
                                     </td>
                                     <td>
                                         {{ $row->created_at}}
@@ -136,13 +137,13 @@
                                         </a>
                                     </td>
                                     <td>
-                                        <a href="{{ url('/members/edit/'.$row->id) }}" class="btn btn-success">
+                                        <a href="{{ url('/members/edit/'.$row->account) }}" class="btn btn-success">
                                             <i class="fa fa-pencil-square-o"></i>
                                         </a>
                                     </td>
                                     @if(Auth::user()->admin == 0)
                                     <td>
-                                        <button class="btn btn-danger" onclick="quickEdit('delete',{{$row->id}});">
+                                        <button class="btn btn-danger" onclick="quickEdit('delete',{{$row->account}});">
                                             <i class="fa fa-trash"></i>
                                         </button>
                                     </td>
